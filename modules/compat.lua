@@ -1,7 +1,6 @@
 ---@diagnostic disable: undefined-global, deprecated
 setfenv(1, DFRL:GetEnvironment())
 d.DebugPrint("BOOTING")
-
 -- ALL CODE HERE RUNS RIGHT AWAY, NOT ON MODULE LOAD ("PLAYER_ENTERING_WORLD")
 
 --===========================
@@ -12,28 +11,29 @@ function _G.ShaguFix()
     -- disable redundant or incompatible features -- config isnt loaded bug
     do
         if not ShaguTweaks then return end
-        ShaguTweaks.mods["Hide Errors"].enable = function() end
-        ShaguTweaks.mods["Darkened UI"].enable = function() end
-        ShaguTweaks.mods["Hide Gryphons"].enable = function() end
-        ShaguTweaks.mods["MiniMap Clock"].enable = function() end
-        ShaguTweaks.mods["MiniMap Tweaks"].enable = function() end
-        ShaguTweaks.mods["MiniMap Square"].enable = function() end
-        ShaguTweaks.mods["Movable Unit Frames"].enable = function() end
-        ShaguTweaks.mods["Real Health Numbers"].enable = function() end
-        ShaguTweaks.mods["Unit Frame Big Health"].enable = function() end
-        ShaguTweaks.mods["Reduced Actionbar Size"].enable = function() end
-        ShaguTweaks.mods["Unit Frame Class Colors"].enable = function() end
-        ShaguTweaks.mods["Unit Frame Class Portraits"].enable = function() end
+        local T = ShaguTweaks.T
+        ShaguTweaks.mods[T["Hide Errors"]].enable = function() end
+        ShaguTweaks.mods[T["Darkened UI"]].enable = function() end
+        ShaguTweaks.mods[T["Hide Gryphons"]].enable = function() end
+        ShaguTweaks.mods[T["MiniMap Clock"]].enable = function() end
+        ShaguTweaks.mods[T["MiniMap Tweaks"]].enable = function() end
+        ShaguTweaks.mods[T["MiniMap Square"]].enable = function() end
+        ShaguTweaks.mods[T["Movable Unit Frames"]].enable = function() end
+        ShaguTweaks.mods[T["Real Health Numbers"]].enable = function() end
+        ShaguTweaks.mods[T["Unit Frame Big Health"]].enable = function() end
+        ShaguTweaks.mods[T["Reduced Actionbar Size"]].enable = function() end
+        ShaguTweaks.mods[T["Unit Frame Class Colors"]].enable = function() end
+        ShaguTweaks.mods[T["Unit Frame Class Portraits"]].enable = function() end
 
         local ShaguTweaksExtras = IsAddOnLoaded("ShaguTweaks-Extras")
         if ShaguTweaksExtras then
-            ShaguTweaks.mods["Dragonflight Gryphons"].enable = function() end
-            ShaguTweaks.mods["Show Bags"].enable = function() end
-            ShaguTweaks.mods["Floating Actionbar"].enable = function() end
-            ShaguTweaks.mods["Show Energy Ticks"].enable = function() end
-            ShaguTweaks.mods["Show Micro Menu"].enable = function() end
-            ShaguTweaks.mods["Reagent Counter"].enable = function() end
-            ShaguTweaks.mods["Center Vertical Actionbar"].enable = function() end
+            ShaguTweaks.mods[T["Dragonflight Gryphons"]].enable = function() end
+            ShaguTweaks.mods[T["Show Bags"]].enable = function() end
+            ShaguTweaks.mods[T["Floating Actionbar"]].enable = function() end
+            ShaguTweaks.mods[T["Show Energy Ticks"]].enable = function() end
+            ShaguTweaks.mods[T["Show Micro Menu"]].enable = function() end
+            ShaguTweaks.mods[T["Reagent Counter"]].enable = function() end
+            ShaguTweaks.mods[T["Center Vertical Actionbar"]].enable = function() end
         end
     end
 
@@ -41,7 +41,7 @@ function _G.ShaguFix()
     -- but we still want to keep the feature
     do
         if not ShaguTweaks then return end
-        local mod = ShaguTweaks.mods["Item Rarity Borders"]
+        local mod = ShaguTweaks.mods[ShaguTweaks.T["Item Rarity Borders"]]
         if not mod then return end
 
         local orig = mod.enable

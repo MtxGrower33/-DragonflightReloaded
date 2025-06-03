@@ -607,7 +607,7 @@ DFRL:RegisterModule("gui", 2, function()
                 if checked then
                     ShaguTweaks_config[key] = 1
                     d.DebugPrint("ShaguTweaks_config["..key.."] = 1")
-                    local mod = ShaguTweaks.mods[key]
+                    local mod = ShaguTweaks.mods[ShaguTweaks.T[key]]
                     if mod and mod.enable then
                         d.DebugPrint("Enabling module "..key)
                         mod:enable()
@@ -615,7 +615,7 @@ DFRL:RegisterModule("gui", 2, function()
                 else
                     ShaguTweaks_config[key] = 0
                     d.DebugPrint("ShaguTweaks_config["..key.."] = 0")
-                    local mod = ShaguTweaks.mods[key]
+                    local mod = ShaguTweaks.mods[ShaguTweaks.T[key]]
                     if mod and mod.disable then
                         d.DebugPrint("Disabling module "..key)
                         mod:disable()
