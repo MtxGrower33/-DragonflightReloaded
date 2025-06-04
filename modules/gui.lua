@@ -582,6 +582,7 @@ DFRL:RegisterModule("gui", 2, function()
         end
 
         local function CreateShaguCheckbox(parent, name, key, tooltip)
+            key = ShaguTweaks.T[key]
             d.DebugPrint("Creating checkbox for "..key)
             local checkbox = CreateFrame("CheckButton", name, parent, "UICheckButtonTemplate")
             checkbox:SetWidth(20)
@@ -603,11 +604,10 @@ DFRL:RegisterModule("gui", 2, function()
             checkbox:SetScript("OnClick", function()
                 local checked = checkbox:GetChecked() and true or false
                 d.DebugPrint(key.." clicked, checked="..tostring(checked))
-
                 if checked then
                     ShaguTweaks_config[key] = 1
                     d.DebugPrint("ShaguTweaks_config["..key.."] = 1")
-                    local mod = ShaguTweaks.mods[ShaguTweaks.T[key]]
+                    local mod = ShaguTweaks.mods[key]
                     if mod and mod.enable then
                         d.DebugPrint("Enabling module "..key)
                         mod:enable()
@@ -615,7 +615,7 @@ DFRL:RegisterModule("gui", 2, function()
                 else
                     ShaguTweaks_config[key] = 0
                     d.DebugPrint("ShaguTweaks_config["..key.."] = 0")
-                    local mod = ShaguTweaks.mods[ShaguTweaks.T[key]]
+                    local mod = ShaguTweaks.mods[key]
                     if mod and mod.disable then
                         d.DebugPrint("Disabling module "..key)
                         mod:disable()
