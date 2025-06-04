@@ -284,6 +284,7 @@ function DFRL:SaveDB()
     DFRL_DB = self.tempDB
     d:DebugPrint("DFRL:SaveDB() saved " .. count .. " modules to database")
 end
+
 function DFRL:LoadDelayedModules()
     local env = self:GetEnvironment()
     assert(env, "Failed to get environment for modules")

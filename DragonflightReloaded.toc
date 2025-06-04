@@ -3,7 +3,7 @@
 ## Notes: A World of Warcraft UI replacement.
 ## Version: 1.1.0 (Alpha)
 ## Author: Guzruul (sitting in the crossroads tavern 24/7)
-## SavedVariablesPerCharacter: DFRL_LOGS, DFRL_DB ,DFRL_FramePositions
+## SavedVariablesPerCharacter: DFRL_DB ,DFRL_FramePositions
 
 # Bindings.xml
 

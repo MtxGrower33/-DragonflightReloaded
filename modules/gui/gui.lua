@@ -1082,13 +1082,6 @@ DFRL:RegisterModule("gui", 2, function()
             noteText:SetJustifyH("CENTER")
             noteText:SetFont("Fonts\\FRIZQT__.TTF", 10, "")
             noteText:SetText("|cFFCCCCCCChanges will take effect\n after reloading the UI.|r")
-
-            local shaggyTexture = modulesPanel:CreateTexture(nil, "ARTWORK")
-            shaggyTexture:SetTexture("Interface\\AddOns\\DragonflightReloaded\\media\\tex\\gui\\shaggy2.tga")
-            shaggyTexture:SetPoint("BOTTOM", noteText, "TOP", 0, 5)
-            shaggyTexture:SetWidth(90)
-            shaggyTexture:SetHeight(90)
-            shaggyTexture:SetAlpha(0.3)
         end
     end
 end)

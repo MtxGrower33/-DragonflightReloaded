@@ -90,8 +90,8 @@ DFRL:RegisterModule("targetframe", 1, function()
         local manaPercent = maxMana > 0 and mana / maxMana or 0
         local manaPercentInt = math.floor(manaPercent * 100)
 
-        local noPercentEnabled = DFRL:GetConfig("targetframe", "noPercent")[1]
-        local coloringEnabled = DFRL:GetConfig("targetframe", "textColoring")[1]
+        local noPercentEnabled = DFRL:GetConfig("targetframe", "noPercent")
+        local coloringEnabled = DFRL:GetConfig("targetframe", "textColoring")
 
         local isDead = UnitIsDead("target")
 
