@@ -3,16 +3,16 @@ DFRL:SetDefaults("playerframe", {
     enabled = {true},
     hidden = {false},
 
-    darkMode = {false, 1, "checkbox", "appearance", "Enable dark mode for player frame"},
-    textShow = {true, 2, "checkbox", "appearance", "Show health and mana text"},
-    frameHide = {false, 3, "checkbox", "appearance", "Hide frame at full HP when not in combat"},
-    noPercent = {true, 4, "checkbox", "appearance", "Show only current values without percentages"},
-    textColoring = {false, 5, "checkbox", "appearance", "Color text based on health/mana percentage, white to red"},
-    classPortrait = {false, 6, "checkbox", "appearance", "Activate 2D class portrait icons"},
+    darkMode = {false, 1, "checkbox", "appearance", "Enable dark mode for the player frame"},
+    textShow = {true, 2, "checkbox", "text", "Show health and mana text"},
+    noPercent = {true, 3, "checkbox", "text", "Show only current values without percentages"},
+    textColoring = {false, 4, "checkbox", "text", "Color text based on health/mana percentage from white to red"},
+    classPortrait = {false, 5, "checkbox", "tweaks", "Activate 2D class portrait icons"},
+    frameHide = {false, 6, "checkbox", "tweaks", "Hide frame at full HP when not in combat"},
 })
 
-DFRL:RegisterModule("playerframe", 1, function()
-    d.DebugPrint("BOOTING")
+DFRL:RegisterModule("playerframe", 2, function()
+    d:DebugPrint("BOOTING")
 
     PlayerFrameTexture:SetTexture("Interface\\AddOns\\DragonflightReloaded\\media\\tex\\unitframes\\UI-TargetingFrameDF.blp")
     PlayerStatusTexture:SetTexture("Interface\\AddOns\\DragonflightReloaded\\media\\tex\\unitframes\\UI-Player-Status.blp")
@@ -202,7 +202,7 @@ DFRL:RegisterModule("playerframe", 1, function()
         local animationFrames = {}
 
         local function CreateCutoutEffect(statusBar, barType, unit)
-            d.DebugPrint("Creating cutout effect - BarType: " .. barType .. ", Unit: " .. (unit or "unknown"))
+            -- d:DebugPrint("Creating cutout effect - BarType: " .. barType .. ", Unit: " .. (unit or "unknown"))
 
             local cutoutFrame = CreateFrame("Frame", nil, statusBar)
             cutoutFrame:SetFrameLevel(statusBar:GetFrameLevel() + 1)
@@ -226,7 +226,7 @@ DFRL:RegisterModule("playerframe", 1, function()
             cutoutFrame.initialized = false
 
             table.insert(animationFrames, cutoutFrame)
-            d.DebugPrint("Cutout frame created and added to animationFrames")
+            -- d:DebugPrint("Cutout frame created and added to animationFrames")
             return cutoutFrame
         end
 
@@ -245,17 +245,17 @@ DFRL:RegisterModule("playerframe", 1, function()
             local unitLevel = UnitLevel(unit)
             local unitID = (unitName or "unknown") .. "_" .. (unitLevel or "0")
 
-            d.DebugPrint("UpdateCutoutEffect called - Unit: " .. unit .. ", ID: " .. unitID .. ", BarType: " .. frame.barType .. ", Current: " .. currentValue .. ", Max: " .. maxValue)
+            -- d:DebugPrint("UpdateCutoutEffect called - Unit: " .. unit .. ", ID: " .. unitID .. ", BarType: " .. frame.barType .. ", Current: " .. currentValue .. ", Max: " .. maxValue)
 
             if UnitIsDead(unit) or UnitIsGhost(unit) then
-                d.DebugPrint("Unit is dead or ghost - setting lastValue and returning")
+                -- d:DebugPrint("Unit is dead or ghost - setting lastValue and returning")
                 frame.lastValue = currentValue
                 frame.lastUnitID = unitID
                 return
             end
 
             if frame.lastUnitID ~= unitID then
-                d.DebugPrint("ACTUAL UNIT CHANGED - Old ID: " .. (frame.lastUnitID or "nil") .. ", New ID: " .. unitID .. ", Setting lastValue to: " .. currentValue)
+                -- d:DebugPrint("ACTUAL UNIT CHANGED - Old ID: " .. (frame.lastUnitID or "nil") .. ", New ID: " .. unitID .. ", Setting lastValue to: " .. currentValue)
                 frame.lastUnitID = unitID
                 frame.lastValue = currentValue
                 frame.initialized = true
@@ -263,14 +263,14 @@ DFRL:RegisterModule("playerframe", 1, function()
             end
 
             if not frame.initialized then
-                d.DebugPrint("Frame not initialized - setting lastValue to: " .. currentValue)
+                -- d:DebugPrint("Frame not initialized - setting lastValue to: " .. currentValue)
                 frame.lastValue = currentValue
                 frame.lastUnitID = unitID
                 frame.initialized = true
                 return
             end
 
-            d.DebugPrint("Comparing values - LastValue: " .. (frame.lastValue or "nil") .. ", CurrentValue: " .. currentValue)
+            -- d:DebugPrint("Comparing values - LastValue: " .. (frame.lastValue or "nil") .. ", CurrentValue: " .. currentValue)
 
             if frame.lastValue and currentValue < frame.lastValue and maxValue > 0 then
                 local statusBar = frame:GetParent()
@@ -281,7 +281,7 @@ DFRL:RegisterModule("playerframe", 1, function()
                 local remainingPercent = currentValue / maxValue
                 local xOffset = width * remainingPercent
 
-                d.DebugPrint("TRIGGERING CUTOUT EFFECT - Lost: " .. (frame.lastValue - currentValue) .. ", LostPercent: " .. lostPercent .. ", CutoutWidth: " .. cutoutWidth)
+                -- d:DebugPrint("TRIGGERING CUTOUT EFFECT - Lost: " .. (frame.lastValue - currentValue) .. ", LostPercent: " .. lostPercent .. ", CutoutWidth: " .. cutoutWidth)
 
                 frame.texture:ClearAllPoints()
                 frame.texture:SetPoint("TOPLEFT", statusBar, "TOPLEFT", xOffset, 0)
@@ -294,7 +294,7 @@ DFRL:RegisterModule("playerframe", 1, function()
             end
 
             frame.lastValue = currentValue
-            d.DebugPrint("Updated lastValue to: " .. currentValue)
+            -- d:DebugPrint("Updated lastValue to: " .. currentValue)
         end
 
         local function OnUpdate()
@@ -343,7 +343,7 @@ DFRL:RegisterModule("playerframe", 1, function()
             if targetHealth then
                 local targetHealthCutout = CreateCutoutEffect(targetHealth, "health", "target")
                 targetHealth:SetScript("OnValueChanged", function()
-                    d.DebugPrint("TARGET HEALTH OnValueChanged triggered")
+                    d:DebugPrint("TARGET HEALTH OnValueChanged triggered")
                     UpdateCutoutEffect(targetHealthCutout, "target")
                 end)
             end
@@ -352,7 +352,7 @@ DFRL:RegisterModule("playerframe", 1, function()
             if targetMana then
                 local targetManaCutout = CreateCutoutEffect(targetMana, "mana", "target")
                 targetMana:SetScript("OnValueChanged", function()
-                    d.DebugPrint("TARGET MANA OnValueChanged triggered")
+                    d:DebugPrint("TARGET MANA OnValueChanged triggered")
                     UpdateCutoutEffect(targetManaCutout, "target")
                 end)
             end
@@ -509,7 +509,7 @@ DFRL:RegisterModule("playerframe", 1, function()
             local manaPercent = mana / maxMana
             local manaPercentInt = math.floor(manaPercent * 100)
 
-            if DFRL:GetConfig("playerframe", "noPercent")[1] then
+            if DFRL:GetConfig("playerframe", "noPercent") then
                 healthPercentText:SetText("")
                 healthValueText:SetText(health)
                 manaPercentText:SetText("")

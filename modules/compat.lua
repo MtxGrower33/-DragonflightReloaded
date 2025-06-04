@@ -85,7 +85,7 @@ f:SetScript("OnEvent", function()
 
         ShaguFix()
 
-        d.DebugPrint("ShaguTweaks temp hotfix applied ADDON_LOADED")
+        d:DebugPrint("ShaguTweaks temp hotfix applied ADDON_LOADED")
     end
 end)
 

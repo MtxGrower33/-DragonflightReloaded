@@ -5,56 +5,58 @@ DFRL:SetDefaults("actionbars", {
 
     -- key = { value, index, elementType, category, Tooltip text}
     darkMode = {false, 1, "checkbox", "appearance", "Enable dark mode for action bars"},
-    MultiBarOneScale = {0.95, 37, "slider", {0.2, 2}, "multibar one", "Adjusts scale of bottom left action bar"},
-    MultiBarOneSpacing = {6, 2, "slider", {0.1, 20}, "multibar one", "Adjusts spacing between bottom left action bar buttons"},
-    MultiBarOneAlpha = {1, 3, "slider", {0.1, 1}, "multibar one", "Adjusts transparency of bottom left action bar"},
 
-    MultiBarTwoScale = {0.9, 4, "slider", {0.2, 2}, "multibar two", "Adjusts scale of bottom right action bar"},
-    MultiBarTwoSpacing = {6, 5, "slider", {0.1, 20}, "multibar two", "Adjusts spacing between bottom right action bar buttons"},
-    MultiBarTwoAlpha = {1, 6, "slider", {0.1, 1}, "multibar two", "Adjusts transparency of bottom right action bar"},
+    multiBarOneScale = {0.95, 37, "slider", {0.2, 2}, "multibar 1", "Adjusts scale of bottom left action bar"},
+    multiBarOneSpacing = {6, 2, "slider", {0.1, 20}, "multibar 1", "Adjusts spacing between bottom left action bar buttons"},
+    multiBarOneAlpha = {1, 3, "slider", {0.1, 1}, "multibar 1", "Adjusts transparency of bottom left action bar"},
 
-    MultiBarLeftScale = {0.8, 7, "slider", {0.2, 2}, "multibar left", "Adjusts scale of left action bar"},
-    MultiBarLeftSpacing = {6, 8, "slider", {0.1, 20}, "multibar left", "Adjusts spacing between left action bar buttons"},
-    MultiBarLeftAlpha = {1, 9, "slider", {0.1, 1}, "multibar left", "Adjusts transparency of left action bar"},
+    multiBarTwoScale = {0.9, 4, "slider", {0.2, 2}, "multibar 2", "Adjusts scale of bottom right action bar"},
+    multiBarTwoSpacing = {6, 5, "slider", {0.1, 20}, "multibar 2", "Adjusts spacing between bottom right action bar buttons"},
+    multiBarTwoAlpha = {1, 6, "slider", {0.1, 1}, "multibar 2", "Adjusts transparency of bottom right action bar"},
 
-    MultiBarRightScale = {0.8, 10, "slider", {0.2, 2}, "multibar right", "Adjusts scale of right action bar"},
-    MultiBarRightSpacing = {6, 11, "slider", {0.1, 20}, "multibar right", "Adjusts spacing between right action bar buttons"},
-    MultiBarRightAlpha = {1, 12, "slider", {0.1, 1}, "multibar right", "Adjusts transparency of right action bar"},
+    multiBarThreeScale = {0.8, 7, "slider", {0.2, 2}, "multibar 3", "Adjusts scale of left action bar"},
+    multiBarThreeSpacing = {6, 8, "slider", {0.1, 20}, "multibar 3", "Adjusts spacing between left action bar buttons"},
+    multiBarThreeAlpha = {1, 9, "slider", {0.1, 1}, "multibar 3", "Adjusts transparency of left action bar"},
 
-    gryphoonShow = {true, 15, "checkbox", "gryphons", "Show or hide the gryphon/wyvern decorations"},
-    gryphoonScale = {1, 36, "slider", {0.2, 2}, "gryphons", "Adjusts the size of the gryphon/wyvern decorations"},
-    gryphoonX = {-48, 17, "slider", {-200, 200}, "gryphons", "Adjusts horizontal position of gryphon/wyvern decorations"},
-    gryphoonY = {10, 18, "slider", {-200, 200}, "gryphons", "Adjusts vertical position of gryphon/wyvern decorations"},
-    gryphoonFlip = {false, 16, "checkbox", "gryphons", "Flip the gryphon/wyvern textures."},
-    gryphoonAlt = {false, 14, "checkbox", "gryphons", "Use the alternative gryphon/wyvern textures."},
+    multiBarFourScale = {0.8, 10, "slider", {0.2, 2}, "multibar 4", "Adjusts scale of right action bar"},
+    multiBarFourSpacing = {6, 11, "slider", {0.1, 20}, "multibar 4", "Adjusts spacing between right action bar buttons"},
+    multiBarFourAlpha = {1, 12, "slider", {0.1, 1}, "multibar 4", "Adjusts transparency of right action bar"},
 
-    pagingShow = {true, 19, "checkbox", "appearance", "Show or hide the action bar paging buttons"},
-    pagingSwap = {true, 45, "checkbox", "appearance", "Swap the anchorpoint of the paging buttons."},
-    pagingX = {15, 46, "slider", {0, 150}, "appearance", "Adjusts horizontal position of paging buttons"},
+    showGryphoon = {true, 14, "checkbox", "multibar deco", "Show or hide the gryphon/wyvern decorations"},
+    altGryphoon = {false, 15, "checkbox", "multibar deco", "Use the alternative gryphon/wyvern textures"},
+    flipGryphoon = {false, 16, "checkbox", "multibar deco", "Flip the gryphon/wyvern textures"},
+    gryphoonScale = {1, 36, "slider", {0.2, 2}, "multibar deco", "Adjusts the size of the gryphon/wyvern decorations"},
+    gryphoonX = {-48, 17, "slider", {-200, 200}, "multibar deco", "Adjusts horizontal position of gryphon/wyvern decorations"},
+    gryphoonY = {10, 18, "slider", {-200, 200}, "multibar deco", "Adjusts vertical position of gryphon/wyvern decorations"},
 
-    hotkeyColour = {{1, 0.82, 0}, 21, "colourslider", "hotkeys", "Changes the colour of keybind text on action buttons"},
-    hotkeyShow = {true, 20, "checkbox", "hotkeys", "Show or hide keybind text on action buttons"},
-    hotkeyScale = {1, 22, "slider", {0.5, 2}, "hotkeys", "Adjusts the size of keybind text on action buttons"},
-    hotkeyX = {0, 23, "slider", {-50, 50}, "hotkeys", "Adjusts horizontal position of keybind text"},
-    hotkeyY = {-2, 24, "slider", {-50, 50}, "hotkeys", "Adjusts vertical position of keybind text"},
+    pagingShow = {true, 19, "checkbox", "multibar paging", "Show or hide the action bar paging buttons"},
+    pagingSwap = {true, 45, "checkbox", "multibar paging", "Swap the anchorpoint of the paging buttons"},
+    pagingX = {15, 46, "slider", {0, 150}, "multibar paging", "Adjusts horizontal position of paging buttons"},
 
-    macroColour = {{1, 1, 1}, 26, "colourslider", "macros", "Changes the colour of macro text on action buttons"},
-    macroShow = {true, 25, "checkbox", "macros", "Show or hide macro text on action buttons"},
-    macroScale = {1, 27, "slider", {0.5, 2}, "macros", "Adjusts the size of macro text on action buttons"},
-    macroX = {0, 28, "slider", {-50, 50}, "macros", "Adjusts horizontal position of macro text"},
-    macroY = {2, 29, "slider", {-50, 50}, "macros", "Adjusts vertical position of macro text"},
+    hotkeyColour = {{1, 0.82, 0}, 21, "colourslider", "multibar hotkeys", "Changes the colour of keybind text on action buttons"},
+    hotkeyShow = {true, 20, "checkbox", "multibar hotkeys", "Show or hide keybind text on action buttons"},
+    hotkeyScale = {1, 22, "slider", {0.5, 2}, "multibar hotkeys", "Adjusts the size of keybind text on action buttons"},
+    hotkeyX = {0, 23, "slider", {-50, 50}, "multibar hotkeys", "Adjusts horizontal position of keybind text"},
+    hotkeyY = {-2, 24, "slider", {-50, 50}, "multibar hotkeys", "Adjusts vertical position of keybind text"},
 
-    petbarScale = {0.8, 30, "slider", {0.2, 2}, "extra bar", "Adjusts the scale of the pet action bar"},
-    shapeshiftScale = {0.8, 31, "slider", {0.2, 2}, "extra bar", "Adjusts the scale of the stance/shapeshift bar"},
-    petbarSpacing = {6, 32, "slider", {0.1, 20}, "extra bar", "Adjusts spacing between pet action bar buttons"},
-    petbarAlpha = {1, 33, "slider", {0.1, 1}, "extra bar", "Adjusts transparency of pet action bar"},
-    shapeshiftSpacing = {6, 34, "slider", {0.1, 20}, "extra bar", "Adjusts spacing between stance/shapeshift buttons"},
-    shapeshiftAlpha = {1, 35, "slider", {0.1, 1}, "extra bar", "Adjusts transparency of stance/shapeshift bar"},
+    macroColour = {{1, 1, 1}, 26, "colourslider", "multibar macros", "Changes the colour of macro text on action buttons"},
+    macroShow = {true, 25, "checkbox", "multibar macros", "Show or hide macro text on action buttons"},
+    macroScale = {1, 27, "slider", {0.5, 2}, "multibar macros", "Adjusts the size of macro text on action buttons"},
+    macroX = {0, 28, "slider", {-50, 50}, "multibar macros", "Adjusts horizontal position of macro text"},
+    macroY = {2, 29, "slider", {-50, 50}, "multibar macros", "Adjusts vertical position of macro text"},
+
+    petbarScale = {0.8, 30, "slider", {0.2, 2}, "pet bar", "Adjusts the scale of the pet action bar"},
+    petbarSpacing = {6, 32, "slider", {0.1, 20}, "pet bar", "Adjusts spacing between pet action bar buttons"},
+    petbarAlpha = {1, 33, "slider", {0.1, 1}, "pet bar", "Adjusts transparency of pet action bar"},
+
+    shapeshiftScale = {0.8, 31, "slider", {0.2, 2}, "shapeshift bar", "Adjusts the scale of the shapeshift bar"},
+    shapeshiftSpacing = {6, 34, "slider", {0.1, 20}, "shapeshift bar", "Adjusts spacing between shapeshift buttons"},
+    shapeshiftAlpha = {1, 35, "slider", {0.1, 1}, "shapeshift bar", "Adjusts transparency of shapeshift bar"},
 
 })
 
 DFRL:RegisterModule("actionbars", 1, function()
-    d.DebugPrint("BOOTING")
+    d:DebugPrint("BOOTING")
 
     -- hide stuff
     do
@@ -267,7 +269,7 @@ DFRL:RegisterModule("actionbars", 1, function()
         local function UpdateBarPositions()
             -- check if bars are user placed
             local movable = DFRL:GetConfig("actionbars", "movable")
-            if movable[1] ~= true then
+            if movable ~= true then
                 return
             end
 
@@ -609,13 +611,13 @@ DFRL:RegisterModule("actionbars", 1, function()
     -- callbacks
     local callbacks = {}
 
-    callbacks.MultiBarOneScale = function(value)
+    callbacks.multiBarOneScale = function(value)
         local scale = value
 
         MultiBarBottomLeft:SetScale(scale)
     end
 
-    callbacks.MultiBarOneSpacing = function(value)
+    callbacks.multiBarOneSpacing = function(value)
         local spacing = value
         for i = 2, 12 do
             local button = _G["MultiBarBottomLeftButton"..i]
@@ -624,17 +626,17 @@ DFRL:RegisterModule("actionbars", 1, function()
         end
     end
 
-    callbacks.MultiBarOneAlpha = function(value)
+    callbacks.multiBarOneAlpha = function(value)
         local alpha = value
         MultiBarBottomLeft:SetAlpha(alpha)
     end
 
-    callbacks.MultiBarTwoScale = function(value)
+    callbacks.multiBarTwoScale = function(value)
         local scale = value
         MultiBarBottomRight:SetScale(scale)
     end
 
-    callbacks.MultiBarTwoSpacing = function(value)
+    callbacks.multiBarTwoSpacing = function(value)
         local spacing = value
         for i = 2, 12 do
             local button = _G["MultiBarBottomRightButton"..i]
@@ -643,17 +645,17 @@ DFRL:RegisterModule("actionbars", 1, function()
         end
     end
 
-    callbacks.MultiBarTwoAlpha = function(value)
+    callbacks.multiBarTwoAlpha = function(value)
         local alpha = value
         MultiBarBottomRight:SetAlpha(alpha)
     end
 
-    callbacks.MultiBarLeftScale = function(value)
+    callbacks.multiBarThreeScale = function(value)
         local scale = value
         MultiBarLeft:SetScale(scale)
     end
 
-    callbacks.MultiBarLeftSpacing = function(value)
+    callbacks.multiBarThreeSpacing = function(value)
         local spacing = value
         for i = 2, 12 do
             local button = _G["MultiBarLeftButton"..i]
@@ -662,17 +664,17 @@ DFRL:RegisterModule("actionbars", 1, function()
         end
     end
 
-    callbacks.MultiBarLeftAlpha = function(value)
+    callbacks.multiBarThreeAlpha = function(value)
         local alpha = value
         MultiBarLeft:SetAlpha(alpha)
     end
 
-    callbacks.MultiBarRightScale = function(value)
+    callbacks.multiBarFourScale = function(value)
         local scale = value
         MultiBarRight:SetScale(scale)
     end
 
-    callbacks.MultiBarRightSpacing = function(value)
+    callbacks.multiBarFourSpacing = function(value)
         local spacing = value
         for i = 2, 12 do
             local button = _G["MultiBarRightButton"..i]
@@ -681,7 +683,7 @@ DFRL:RegisterModule("actionbars", 1, function()
         end
     end
 
-    callbacks.MultiBarRightAlpha = function(value)
+    callbacks.multiBarFourAlpha = function(value)
         local alpha = value
         MultiBarRight:SetAlpha(alpha)
     end
@@ -702,7 +704,7 @@ DFRL:RegisterModule("actionbars", 1, function()
         end
     end
 
-    callbacks.gryphoonShow = function(value)
+    callbacks.showGryphoon = function(value)
         local leftGryphon = _G["DFRL_LeftGryphon"]
         local rightGryphon = _G["DFRL_RightGryphon"]
 
@@ -724,34 +726,32 @@ DFRL:RegisterModule("actionbars", 1, function()
     end
 
     callbacks.gryphoonX = function(value)
-        local xOffset = value
         local leftGryphon = _G["DFRL_LeftGryphon"]
         local rightGryphon = _G["DFRL_RightGryphon"]
 
         if leftGryphon then
             leftGryphon:ClearAllPoints()
-            leftGryphon:SetPoint("RIGHT", DFRL.actionBarFrame, "LEFT", -xOffset, DFRL:GetConfig("actionbars", "gryphoonY")[1])
+            leftGryphon:SetPoint("RIGHT", DFRL.actionBarFrame, "LEFT", -value, DFRL:GetConfig("actionbars", "gryphoonY"))
         end
 
         if rightGryphon then
             rightGryphon:ClearAllPoints()
-            rightGryphon:SetPoint("LEFT", DFRL.actionBarFrame, "RIGHT", xOffset, DFRL:GetConfig("actionbars", "gryphoonY")[1])
+            rightGryphon:SetPoint("LEFT", DFRL.actionBarFrame, "RIGHT", value, DFRL:GetConfig("actionbars", "gryphoonY"))
         end
     end
 
     callbacks.gryphoonY = function(value)
-        local yOffset = value
         local leftGryphon = _G["DFRL_LeftGryphon"]
         local rightGryphon = _G["DFRL_RightGryphon"]
 
         if leftGryphon then
             leftGryphon:ClearAllPoints()
-            leftGryphon:SetPoint("RIGHT", DFRL.actionBarFrame, "LEFT", DFRL:GetConfig("actionbars", "gryphoonX")[1], yOffset)
+            leftGryphon:SetPoint("RIGHT", DFRL.actionBarFrame, "LEFT", DFRL:GetConfig("actionbars", "gryphoonX"), value)
         end
 
         if rightGryphon then
             rightGryphon:ClearAllPoints()
-            rightGryphon:SetPoint("LEFT", DFRL.actionBarFrame, "RIGHT", -DFRL:GetConfig("actionbars", "gryphoonX")[1], yOffset)
+            rightGryphon:SetPoint("LEFT", DFRL.actionBarFrame, "RIGHT", -DFRL:GetConfig("actionbars", "gryphoonX"), value)
         end
     end
 
@@ -875,7 +875,7 @@ DFRL:RegisterModule("actionbars", 1, function()
                 local button = _G[buttonType .. i]
                 if button and button.DFRL_KeybindText then
                     button.DFRL_KeybindText:ClearAllPoints()
-                    button.DFRL_KeybindText:SetPoint("BOTTOM", button, "BOTTOM", xOffset, DFRL:GetConfig("actionbars", "hotkeyY")[1])
+                    button.DFRL_KeybindText:SetPoint("BOTTOM", button, "BOTTOM", xOffset, DFRL:GetConfig("actionbars", "hotkeyY"))
                 end
             end
         end
@@ -893,7 +893,7 @@ DFRL:RegisterModule("actionbars", 1, function()
                 local button = _G[buttonType .. i]
                 if button and button.DFRL_KeybindText then
                     button.DFRL_KeybindText:ClearAllPoints()
-                    button.DFRL_KeybindText:SetPoint("BOTTOM", button, "BOTTOM", DFRL:GetConfig("actionbars", "hotkeyX")[1], yOffset)
+                    button.DFRL_KeybindText:SetPoint("BOTTOM", button, "BOTTOM", DFRL:GetConfig("actionbars", "hotkeyX"), yOffset)
                 end
             end
         end
@@ -977,7 +977,7 @@ DFRL:RegisterModule("actionbars", 1, function()
                     local macroName = _G[button:GetName() .. "Name"]
                     if macroName then
                         macroName:ClearAllPoints()
-                        macroName:SetPoint("TOP", button, "TOP", xOffset, DFRL:GetConfig("actionbars", "macroY")[1])
+                        macroName:SetPoint("TOP", button, "TOP", xOffset, DFRL:GetConfig("actionbars", "macroY"))
                     end
                 end
             end
@@ -998,7 +998,7 @@ DFRL:RegisterModule("actionbars", 1, function()
                     local macroName = _G[button:GetName() .. "Name"]
                     if macroName then
                         macroName:ClearAllPoints()
-                        macroName:SetPoint("TOP", button, "TOP", DFRL:GetConfig("actionbars", "macroX")[1], yOffset)
+                        macroName:SetPoint("TOP", button, "TOP", DFRL:GetConfig("actionbars", "macroX"), yOffset)
                     end
                 end
             end
@@ -1055,7 +1055,7 @@ DFRL:RegisterModule("actionbars", 1, function()
         end
     end
 
-    callbacks.gryphoonFlip = function (value)
+    callbacks.flipGryphoon = function (value)
         local leftGryphon = _G["DFRL_LeftGryphon"]
         local rightGryphon = _G["DFRL_RightGryphon"]
 
@@ -1068,7 +1068,7 @@ DFRL:RegisterModule("actionbars", 1, function()
         end
     end
 
-    callbacks.gryphoonAlt = function(value)
+    callbacks.altGryphoon = function(value)
         local leftGryphon = _G["DFRL_LeftGryphon"]
         local rightGryphon = _G["DFRL_RightGryphon"]
 
@@ -1094,7 +1094,7 @@ DFRL:RegisterModule("actionbars", 1, function()
             rightGryphon:SetTexture(texturePath)
 
             -- maintain flip
-            local isFlipped = DFRL:GetConfig("actionbars", "gryphoonFlip")[1]
+            local isFlipped = DFRL:GetConfig("actionbars", "flipGryphoon")
             if isFlipped then
                 leftGryphon:SetTexCoord(1, 0, 0, 1)
                 rightGryphon:SetTexCoord(0, 1, 0, 1)
@@ -1118,7 +1118,7 @@ DFRL:RegisterModule("actionbars", 1, function()
 
     callbacks.pagingX = function(value)
         if DFRL.pagingContainer then
-            local isSwapped = DFRL:GetConfig("actionbars", "pagingSwap")[1]
+            local isSwapped = DFRL:GetConfig("actionbars", "pagingSwap")
             DFRL.pagingContainer:ClearAllPoints()
             if isSwapped then
                 DFRL.pagingContainer:SetPoint("RIGHT", ActionButton1, "LEFT", -value, -1)

@@ -2,36 +2,40 @@ DFRL:SetDefaults("minimap", {
     enabled = {true},
     hidden = {false},
 
-    darkMode = {false, 1, "checkbox", "appearance", "Enable dark mode for the minimap"},
-    mapSize = {180, 6, "slider", {140, 350}, "map appearance", "Adjusts the overall size of the minimap"},
-    zoomShow = {true, 3, "checkbox", "map appearance", "Show or hide zoom buttons on the minimap"},
-    shadowShow = {true, 2, "checkbox", "map appearance", "Show or hide the shadow behind the minimap"},
-    shadowAlpha = {0.3, 8, "slider", {0.1, 1}, "map appearance", "Adjusts transparency of the minimap shadow"},
-    zoomScale = {0.8, 18, "slider", {0.2, 2}, "map appearance", "Adjusts size of zoom buttons"},
-    zoomAlpha = {1, 9, "slider", {0.1, 1}, "map appearance", "Adjusts transparency of zoom buttons"},
-    minimapAlpha = {1, 7, "slider", {0.1, 1}, "map appearance", "Adjusts transparency of the entire minimap"},
-    toppanelShow = {true, 4, "checkbox", "top panel", "Show or hide the top information panel"},
-    toppanelWidth = {180, 10, "slider", {100, 600}, "top panel", "Adjusts the width of the top panel"},
-    toppanelHeight = {12, 11, "slider", {5, 50}, "top panel", "Adjusts the height of the top panel"},
-    zoneTextSize = {10, 12, "slider", {6, 30}, "top panel zone", "Adjusts font size of the zone text"},
-    zoneTextY = {-3, 13, "slider", {-50, 50}, "top panel zone", "Adjusts vertical position of the zone text"},
-    zoneTextX = {4, 14, "slider", {-50, 50}, "top panel zone", "Adjusts horizontal position of the zone text"},
-    timeTextSize = {10, 15, "slider", {6, 30}, "top panel time", "Adjusts font size of the time display"},
-    timeTextY = {-3, 16, "slider", {-50, 50}, "top panel time", "Adjusts vertical position of the time display"},
-    timeTextX = {-4, 17, "slider", {-50, 50}, "top panel time", "Adjusts horizontal position of the time display"},
-    timeTextShow = {true, 5, "checkbox", "top panel time", "Show or hide the time display on the minimap"},
+    darkMode       = {false,  1, "checkbox",                      "appearance",        "Enable dark mode for the minimap"},
 
-    PFQuestShow = {true, 19, "checkbox", "top panel", "Show or hide the pfQuest icon"},
-    radioShow = {true, 20, "checkbox", "top panel", "Show or hide the Everlook Broadcasting Radio"},
+    mapSquare      = {false,  4, "checkbox",                      "map basic",    "Show the Minimap Square design"},
+    mapSize        = {180,    5, "slider",   {140, 350},          "map basic",    "Adjusts the overall size of the minimap"},
+    mapAlpha   = {1,      6, "slider",   {0.1, 1},            "map basic",    "Adjusts transparency of the entire minimap"},
 
-    mapSquare = {false, 4, "checkbox", "map appearance", "Show the Minimap Square design"},
-    zoomX = {-5, 22, "slider", {-100, 100}, "map appearance", "Adjusts horizontal position of zoom buttons"},
-    zoomY = {40, 23, "slider", {-100, 100}, "map appearance", "Adjusts vertical position of zoom buttons"},
+    showShadow     = {true,   2, "checkbox",                      "map shadow",    "Show or hide the shadow inside the minimap"},
+    alphaShadow    = {0.3,    7, "slider",   {0.1, 1},            "map shadow",    "Adjusts transparency of the minimap shadow"},
+
+    showZoom       = {true,   3, "checkbox",                      "map zoom",          "Show or hide zoom buttons on the minimap"},
+    scaleZoom      = {0.8,    8, "slider",   {0.2, 2},            "map zoom",          "Adjusts size of zoom buttons"},
+    alphaZoom      = {1,      9, "slider",   {0.1, 1},            "map zoom",          "Adjusts transparency of zoom buttons"},
+    zoomX          = {-5,    10, "slider",   {-100, 100},         "map zoom",          "Adjusts horizontal position of zoom buttons"},
+    zoomY          = {40,    11, "slider",   {-100, 100},         "map zoom",          "Adjusts vertical position of zoom buttons"},
+
+    showTopPanel   = {true,  12, "checkbox",                       "top panel",         "Show or hide the top information panel"},
+    showPfQuest    = {true,  13, "checkbox",                       "top panel",         "Show or hide the pfQuest icon"},
+    -- radioShow      = {true,  14, "checkbox", "top panel",         "Show or hide the Everlook Broadcasting Radio"},
+    topPanelWidth  = {180,   15, "slider",   {100, 600},          "top panel",         "Adjusts the width of the top panel"},
+    topPanelHeight = {12,    16, "slider",   {5, 50},             "top panel",         "Adjusts the height of the top panel"},
+
+    zoneTextSize   = {10,    17, "slider",   {6, 30},             "top panel zone",    "Adjusts font size of the zone text"},
+    zoneTextY      = {-3,    18, "slider",   {-50, 50},           "top panel zone",    "Adjusts vertical position of the zone text"},
+    zoneTextX      = {4,     19, "slider",   {-50, 50},           "top panel zone",    "Adjusts horizontal position of the zone text"},
+
+    showTime   = {true,  20, "checkbox",                      "top panel time",    "Show or hide the time display on the minimap"},
+    timeSize   = {10,    21, "slider",   {6, 30},             "top panel time",    "Adjusts font size of the time display"},
+    timeY      = {-3,    22, "slider",   {-50, 50},           "top panel time",    "Adjusts vertical position of the time display"},
+    timeX      = {-4,    23, "slider",   {-50, 50},           "top panel time",    "Adjusts horizontal position of the time display"},
 
 })
 
 DFRL:RegisterModule("minimap", 1, function()
-    d.DebugPrint("BOOTING")
+    d:DebugPrint("BOOTING")
 
     -- hide stuff
     do
@@ -43,6 +47,8 @@ DFRL:RegisterModule("minimap", 1, function()
         MinimapBorderTop:Hide()
         MinimapToggleButton:Hide()
         GameTimeFrame:Hide()
+
+        KillFrame(MinimapShopFrame)
     end
 
     -- minimap
@@ -246,7 +252,7 @@ DFRL:RegisterModule("minimap", 1, function()
         minimapShadow:SetPoint("BOTTOMRIGHT", Minimap, "BOTTOMRIGHT", offset, -offset)
     end
 
-    callbacks.shadowShow = function(value)
+    callbacks.showShadow = function(value)
         if value then
             minimapShadow:Show()
         else
@@ -273,11 +279,11 @@ DFRL:RegisterModule("minimap", 1, function()
         zoomOutDisabled:SetVertexColor(color[1], color[2], color[3])
     end
 
-    callbacks.shadowAlpha = function(value)
+    callbacks.alphaShadow = function(value)
         minimapShadow:SetAlpha(value)
     end
 
-    callbacks.zoomShow = function(value)
+    callbacks.showZoom = function(value)
         if value then
             MinimapZoomIn:Show()
             MinimapZoomOut:Show()
@@ -287,21 +293,21 @@ DFRL:RegisterModule("minimap", 1, function()
         end
     end
 
-    callbacks.zoomScale = function(value)
+    callbacks.scaleZoom = function(value)
         MinimapZoomIn:SetScale(value)
         MinimapZoomOut:SetScale(value)
     end
 
-    callbacks.zoomAlpha = function(value)
+    callbacks.alphaZoom = function(value)
         MinimapZoomIn:SetAlpha(value)
         MinimapZoomOut:SetAlpha(value)
     end
 
-    callbacks.minimapAlpha = function(value)
+    callbacks.mapAlpha = function(value)
         Minimap:SetAlpha(value)
     end
 
-    callbacks.toppanelShow = function(value)
+    callbacks.showTopPanel = function(value)
         if value then
             topPanel:Show()
         else
@@ -309,11 +315,11 @@ DFRL:RegisterModule("minimap", 1, function()
         end
     end
 
-    callbacks.toppanelWidth = function(value)
+    callbacks.topPanelWidth = function(value)
         topPanel:SetWidth(value)
     end
 
-    callbacks.toppanelHeight = function(value)
+    callbacks.topPanelHeight = function(value)
         topPanel:SetHeight(value)
     end
 
@@ -323,29 +329,29 @@ DFRL:RegisterModule("minimap", 1, function()
 
     callbacks.zoneTextY = function(value)
         MinimapZoneTextButton:ClearAllPoints()
-        MinimapZoneTextButton:SetPoint("LEFT", topPanel, "LEFT", DFRL:GetConfig("minimap", "zoneTextX")[1], value)
+        MinimapZoneTextButton:SetPoint("LEFT", topPanel, "LEFT", DFRL:GetConfig("minimap", "zoneTextX"), value)
     end
 
     callbacks.zoneTextX = function(value)
         MinimapZoneTextButton:ClearAllPoints()
-        MinimapZoneTextButton:SetPoint("LEFT", topPanel, "LEFT", value, DFRL:GetConfig("minimap", "zoneTextY")[1])
+        MinimapZoneTextButton:SetPoint("LEFT", topPanel, "LEFT", value, DFRL:GetConfig("minimap", "zoneTextY"))
     end
 
-    callbacks.timeTextSize = function(value)
+    callbacks.timeSize = function(value)
         timeText:SetFont("Fonts\\FRIZQT__.TTF", value, "")
     end
 
-    callbacks.timeTextY = function(value)
+    callbacks.timeY = function(value)
         timeText:ClearAllPoints()
-        timeText:SetPoint("RIGHT", topPanel, "RIGHT", DFRL:GetConfig("minimap", "timeTextX")[1], value)
+        timeText:SetPoint("RIGHT", topPanel, "RIGHT", DFRL:GetConfig("minimap", "timeX"), value)
     end
 
-    callbacks.timeTextX = function(value)
+    callbacks.timeX = function(value)
         timeText:ClearAllPoints()
-        timeText:SetPoint("RIGHT", topPanel, "RIGHT", value, DFRL:GetConfig("minimap", "timeTextY")[1])
+        timeText:SetPoint("RIGHT", topPanel, "RIGHT", value, DFRL:GetConfig("minimap", "timeY"))
     end
 
-    callbacks.timeTextShow = function(value)
+    callbacks.showTime = function(value)
         if value then
             timeText:Show()
         else
@@ -353,17 +359,17 @@ DFRL:RegisterModule("minimap", 1, function()
         end
     end
 
-    callbacks.radioShow = function (value)
-        if EBC_Minimap then
-            if value then
-                EBC_Minimap:Show()
-            else
-                EBC_Minimap:Hide()
-            end
-        end
-    end
+    -- callbacks.radioShow = function (value)
+    --     if EBC_Minimap then
+    --         if value then
+    --             EBC_Minimap:Show()
+    --         else
+    --             EBC_Minimap:Hide()
+    --         end
+    --     end
+    -- end
 
-    callbacks.PFQuestShow = function (value)
+    callbacks.showPfQuest = function (value)
         if pfBrowserIcon then
             if value then
                 pfBrowserIcon:Show()
@@ -387,12 +393,12 @@ DFRL:RegisterModule("minimap", 1, function()
 
     callbacks.zoomX = function(value)
         MinimapZoomIn:ClearAllPoints()
-        MinimapZoomIn:SetPoint("TOPLEFT", Minimap, "BOTTOMRIGHT", value, DFRL:GetConfig("minimap", "zoomY")[1])
+        MinimapZoomIn:SetPoint("TOPLEFT", Minimap, "BOTTOMRIGHT", value, DFRL:GetConfig("minimap", "zoomY"))
     end
 
     callbacks.zoomY = function(value)
         MinimapZoomIn:ClearAllPoints()
-        MinimapZoomIn:SetPoint("TOPLEFT", Minimap, "BOTTOMRIGHT", DFRL:GetConfig("minimap", "zoomX")[1], value)
+        MinimapZoomIn:SetPoint("TOPLEFT", Minimap, "BOTTOMRIGHT", DFRL:GetConfig("minimap", "zoomX"), value)
     end
 
     -- execute callbacks

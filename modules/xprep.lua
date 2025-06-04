@@ -3,19 +3,20 @@ DFRL:SetDefaults("xprep", {
     hidden = {false},
 
     darkMode = {false, 1, "checkbox", "appearance", "Enable dark mode for bar borders"},
-    xpTxtShow = {true, 2, "checkbox", "appearance", "Show or hide XP text on the XP bar"},
-    repTxtShow = {false, 3, "checkbox", "appearance", "Show or hide reputation text on the reputation bar"},
 
-    autoTrack = {true, 4, "checkbox", "appearance", "Automatically track reputation for factions you gain reputation with"},
-    xpBarHeight = {12, 5, "slider", {5, 25}, "appearance", "Adjusts the height of the XP bar"},
-    xpBarWidth = {400, 6, "slider", {200, 700}, "appearance", "Adjusts the width of the XP bar"},
-    repBarHeight = {10, 7, "slider", {5, 25}, "appearance", "Adjusts the height of the reputation bar"},
-    repBarWidth = {300, 8, "slider", {200, 700}, "appearance", "Adjusts the width of the reputation bar"},
+    showRepText = {false, 2, "checkbox", "rEP Bar", "Show or hide reputation text on the reputation bar"},
+    autoTrack = {true, 3, "checkbox", "rEP Bar", "Automatically track reputation for factions you gain reputation with"},
+    repBarHeight = {10, 4, "slider", {5, 20}, "rEP Bar", "Adjusts the height of the reputation bar"},
+    repBarWidth = {300, 5, "slider", {200, 700}, "rEP Bar", "Adjusts the width of the reputation bar"},
+
+    showXpText = {true, 6, "checkbox", "xP Bar", "Show or hide XP text on the XP bar"},
+    xpBarHeight = {12, 7, "slider", {5, 20}, "xP Bar", "Adjusts the height of the XP bar"},
+    xpBarWidth = {400, 8, "slider", {200, 700}, "xP Bar", "Adjusts the width of the XP bar"},
 
 })
 
 DFRL:RegisterModule("xprep", 1, function()
-    d.DebugPrint("BOOTING")
+    d:DebugPrint("BOOTING")
 
     -- hide blizzard bars
     do
@@ -108,17 +109,17 @@ DFRL:RegisterModule("xprep", 1, function()
             xpBar:SetMinMaxValues(0, maxXP)
             xpBar:SetValue(currXP)
 
-            d.DebugPrint("Rested XP: " .. tostring(restXP))
+            d:DebugPrint("Rested XP: " .. tostring(restXP))
 
             -- color
             if restXP and restXP > 0 then
                 -- blue
                 xpBar:SetStatusBarColor(0, 0.4, 0.8)
-                d.DebugPrint("Setting XP bar to blue (rested)")
+                d:DebugPrint("Setting XP bar to blue (rested)")
             else
                 -- purple
                 xpBar:SetStatusBarColor(0.58, 0, 0.55)
-                d.DebugPrint("Setting XP bar to purple (normal)")
+                d:DebugPrint("Setting XP bar to purple (normal)")
             end
 
             -- update the text when XP changes
@@ -232,7 +233,7 @@ DFRL:RegisterModule("xprep", 1, function()
         repBar.rightBorder:SetHeight(value + 9)
     end
 
-    callbacks.xpTxtShow = function(value)
+    callbacks.showXpText = function(value)
         if not xpBar.text and value then
             xpBar.text = xpBar:CreateFontString(nil, "OVERLAY")
             xpBar.text:SetPoint("CENTER", xpBar, "CENTER", 0, 1)
@@ -256,7 +257,7 @@ DFRL:RegisterModule("xprep", 1, function()
         end
     end
 
-    callbacks.repTxtShow = function(value)
+    callbacks.showRepText = function(value)
         if not repBar.text and value then
             repBar.text = repBar:CreateFontString(nil, "OVERLAY")
             repBar.text:SetPoint("CENTER", repBar, "CENTER", 0, 1)
@@ -309,7 +310,7 @@ DFRL:RegisterModule("xprep", 1, function()
             repBar.trackingFrame:SetScript("OnEvent", function()
                 if not repBar.autoTrack then return end
 
-                d.DebugPrint("Faction message: " .. tostring(arg1))
+                d:DebugPrint("Faction message: " .. tostring(arg1))
 
                 -- extract faction name
                 local startPos, endPos = string.find(arg1, "Your ", 1, true)
@@ -317,13 +318,13 @@ DFRL:RegisterModule("xprep", 1, function()
                     local restStart = string.find(arg1, " reputation has increased", endPos + 1, true)
                     if restStart then
                         local factionName = string.sub(arg1, endPos + 1, restStart - 1)
-                        d.DebugPrint("Found faction: " .. factionName)
+                        d:DebugPrint("Found faction: " .. factionName)
 
                         -- find the faction
                         for i=1, GetNumFactions() do
                             local name = GetFactionInfo(i)
                             if name == factionName then
-                                d.DebugPrint("Setting watched faction to: " .. name)
+                                d:DebugPrint("Setting watched faction to: " .. name)
                                 SetWatchedFactionIndex(i)
                                 -- update
                                 xpBar:GetScript("OnEvent")("UPDATE_FACTION")

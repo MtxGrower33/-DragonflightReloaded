@@ -1,3 +1,4 @@
+---@diagnostic disable: redundant-parameter
 --===============================================
 -- DRAGONFLIGHT RELOADED WORKFLOW
 --===============================================
@@ -26,16 +27,30 @@
 -- Debug: DebugPrint() saves logs to DFRL_LOGS.
 --===============================================
 
-local d = DFRL_DEBUGTOOLS
-d.DebugPrint("BOOTING")
+-- debug compatibility
+local d
+if DBS_TOOLS then
+    d = DBS_TOOLS
+else
+    d = {}
+    function d:DebugPrint() end
+end
+
+if not ErrorHandler then
+    ErrorHandler = function(err)
+        DEFAULT_CHAT_FRAME:AddMessage("ERROR: " .. err, 1, 0, 0)
+    end
+    seterrorhandler(ErrorHandler)
+end
 
 -- mainframe
 DFRL = CreateFrame("Frame", nil, UIParent)
 
+d:DebugPrint("BOOTING")
+
 -- tables
 DFRL_DB = {}
-DFRL_GUI = {}
-DFRL_FramePositions = {}
+DFRL_FRAMEPOS = {}
 
 DFRL.env = {}
 DFRL.gui = {}
@@ -51,10 +66,18 @@ setmetatable(DFRL.env, {__index = getfenv(0)})
 
 function DFRL:GetEnvironment()
     assert(self.env, "Environment table must exist")
-    self.env.d = DFRL_DEBUGTOOLS
     self.env._G = getfenv(0)
 
-    d.DebugPrint("Environment created")
+    -- add stub
+    if DBS_TOOLS then
+        self.env.d = DBS_TOOLS
+    else
+        local stub = {}
+        function stub:DebugPrint() end
+        self.env.d = stub
+    end
+
+    d:DebugPrint("Environment created")
     return self.env
 end
 
@@ -69,25 +92,24 @@ function DFRL:RegisterModule(moduleName, priority, moduleFunc)
         priority = priority
     }
 
-    d.DebugPrint("Registered module: " .. moduleName .. " with priority " .. tostring(priority))
+    d:DebugPrint("Registered module: " .. moduleName .. " with priority " .. tostring(priority))
 end
 
 function DFRL:LoadModules()
     local env = self:GetEnvironment()
     assert(env, "Failed to get environment for modules")
 
-    -- pcall so that other modules can be loaded even if one fails
-    -- priority 1 (normal)
+    -- priority 1 (immediate)
     local normalCount = 0
     for moduleName, moduleData in pairs(self.modules) do
-        if moduleData.priority == 1 then
+        if moduleData.priority == 1 then  -- Only load priority 1 modules here
             -- check enabled
             local isEnabled = true
             if self.tempDB[moduleName] and
                self.tempDB[moduleName]["enabled"] and
                self.tempDB[moduleName]["enabled"][1] == false then
                 isEnabled = false
-                d.DebugPrint("Skipping disabled module: " .. moduleName)
+                d:DebugPrint("Skipping disabled module: " .. moduleName)
             end
 
             if isEnabled then
@@ -111,59 +133,17 @@ function DFRL:LoadModules()
                     }
 
                     normalCount = normalCount + 1
-                    d.DebugPrint(moduleName .. " loaded in " .. (endTime - startTime) .. "s using " .. (endMem - startMem) .. "KB")
+                    d:DebugPrint(moduleName .. " loaded in " .. (endTime - startTime) .. "s using " .. (endMem - startMem) .. "KB")
                 else
-                    d.ErrorHandler("Failed to load module " .. moduleName .. ": " .. tostring(errorMsg))
+                    ErrorHandler("Failed to load module " .. moduleName .. ": " .. tostring(errorMsg))
                 end
             end
         end
-        d.DebugPrint("Loaded " .. tostring(normalCount) .. " normal priority modules")
     end
 
-    -- priority 2 (delayed)
-    local delayedCount = 0
-    for moduleName, moduleData in pairs(self.modules) do
-        if moduleData.priority == 2 then
-            -- check enabled
-            local isEnabled = true
-            if self.tempDB[moduleName] and
-               self.tempDB[moduleName]["enabled"] and
-               self.tempDB[moduleName]["enabled"][1] == false then
-                isEnabled = false
-                d.DebugPrint("Skipping disabled module: " .. moduleName)
-            end
-
-            if isEnabled then
-                collectgarbage()
-
-                local startTime = GetTime()
-                local startMem = gcinfo()
-
-                -- execute module
-                setfenv(moduleData.func, env)
-                local success, errorMsg = pcall(moduleData.func)
-
-                local endTime = GetTime()
-                local endMem = gcinfo()
-
-                if success then
-                    -- store performance data
-                    self.performance[moduleName] = {
-                        loadTime = endTime - startTime,
-                        memoryUsage = endMem - startMem
-                    }
-
-                    delayedCount = delayedCount + 1
-                    d.DebugPrint(moduleName .. " loaded in " .. (endTime - startTime) .. "s using " .. (endMem - startMem) .. "KB")
-                else
-                    d.ErrorHandler("Failed to load module " .. moduleName .. ": " .. tostring(errorMsg))
-                end
-            end
-        end
-        d.DebugPrint("Loaded " .. tostring(delayedCount) .. " delayed priority modules")
-    end
-    d.DebugPrint("TOTAL: " .. tostring(normalCount + delayedCount) .. " modules")
+    d:DebugPrint("TOTAL: " .. tostring(normalCount) .. " modules")
 end
+
 
 function DFRL:SetDefaults(moduleName, defaultsTable)
     assert(type(moduleName) == "string", "Module name must be a string")
@@ -179,7 +159,7 @@ function DFRL:SetDefaults(moduleName, defaultsTable)
         count = count + 1
     end
 
-    d.DebugPrint("Set " .. tostring(count) .. " defaults for module: " .. moduleName)
+    d:DebugPrint("Set " .. tostring(count) .. " defaults for module: " .. moduleName)
 end
 
 -- callback system
@@ -206,7 +186,7 @@ function DFRL:RegisterCallback(moduleName, callbacksTable)
         count = count + 1
     end
 
-    d.DebugPrint("Registered and triggered " .. tostring(count) .. " callbacks for module: " .. moduleName)
+    d:DebugPrint("Registered and triggered " .. tostring(count) .. " callbacks for module: " .. moduleName)
 end
 
 function DFRL:TriggerCallback(callbackName, value)
@@ -214,7 +194,7 @@ function DFRL:TriggerCallback(callbackName, value)
     assert(type(callbackName) == "string", "Callback name must be a string")
 
     if not self.callbacks[callbackName] then
-        d.DebugPrint("No callbacks registered for: " .. callbackName)
+        d:DebugPrint("No callbacks registered for: " .. callbackName)
         return
     end
 
@@ -225,13 +205,15 @@ function DFRL:TriggerCallback(callbackName, value)
         callbackFunc(value)
     end
 
-    d.DebugPrint("Triggered callback for: " .. callbackName)
+    d:DebugPrint("Triggered callback for: " .. callbackName)
 end
 
 -- config system
 function DFRL:GetConfig(moduleName, key)
     assert(self.tempDB[moduleName], "Module not found in config: " .. tostring(moduleName))
-    return self.tempDB[moduleName][key]
+    assert(self.tempDB[moduleName][key], "Key not found in config: " .. tostring(key))
+    d:DebugPrint("Config requested for " .. moduleName .. "." .. key .. ": " .. tostring(self.tempDB[moduleName][key][1]))
+    return self.tempDB[moduleName][key][1]
 end
 
 function DFRL:SetConfig(moduleName, key, value)
@@ -241,7 +223,7 @@ function DFRL:SetConfig(moduleName, key, value)
     local oldValue = self.tempDB[moduleName][key][1]
     self.tempDB[moduleName][key][1] = value
 
-    d.DebugPrint("Config changed for " .. moduleName .. "." .. key .. ": " .. tostring(oldValue) .. " -> " .. tostring(value))
+    d:DebugPrint("Config changed for " .. moduleName .. "." .. key .. ": " .. tostring(oldValue) .. " -> " .. tostring(value))
 
     -- trigger callback for this config change
     local callbackName = moduleName .. "_" .. key .. "_changed"
@@ -255,7 +237,7 @@ function DFRL:InitializeConfig()
     assert(DFRL_DB, "DFRL_DB is not initialized")
     assert(type(DFRL_DB) == "table", "DFRL_DB must be a table")
 
-    -- copy existing module settings from dfrl_db
+    -- copy existing module settings from DFRL_DB
     for moduleName, moduleTable in pairs(DFRL_DB) do
         if type(moduleTable) == "table" then
             self.tempDB[moduleName] = self.tempDB[moduleName] or {}
@@ -284,7 +266,7 @@ function DFRL:InitializeConfig()
         end
     end
 
-    d.DebugPrint("Config initialized: " .. tostring(settingsLoaded) .. " settings loaded, " .. tostring(defaultsApplied) .. " defaults applied")
+    d:DebugPrint("Config initialized: " .. tostring(settingsLoaded) .. " settings loaded, " .. tostring(defaultsApplied) .. " defaults applied")
 end
 
 function DFRL:SaveDB()
@@ -300,7 +282,54 @@ function DFRL:SaveDB()
     assert(count > 0, "No modules found in tempDB to save")
 
     DFRL_DB = self.tempDB
-    d.DebugPrint("DFRL:SaveDB() saved " .. count .. " modules to database")
+    d:DebugPrint("DFRL:SaveDB() saved " .. count .. " modules to database")
+end
+function DFRL:LoadDelayedModules()
+    local env = self:GetEnvironment()
+    assert(env, "Failed to get environment for modules")
+
+    -- priority 2 (delayed)
+    local delayedCount = 0
+    for moduleName, moduleData in pairs(self.modules) do
+        if moduleData.priority == 2 then
+            -- check enabled
+            local isEnabled = true
+            if self.tempDB[moduleName] and
+               self.tempDB[moduleName]["enabled"] and
+               self.tempDB[moduleName]["enabled"][1] == false then
+                isEnabled = false
+                d:DebugPrint("Skipping disabled module: " .. moduleName)
+            end
+
+            if isEnabled then
+                collectgarbage()
+
+                local startTime = GetTime()
+                local startMem = gcinfo()
+
+                -- execute module
+                setfenv(moduleData.func, env)
+                local success, errorMsg = pcall(moduleData.func)
+
+                local endTime = GetTime()
+                local endMem = gcinfo()
+
+                if success then
+                    -- store performance data
+                    self.performance[moduleName] = {
+                        loadTime = endTime - startTime,
+                        memoryUsage = endMem - startMem
+                    }
+
+                    delayedCount = delayedCount + 1
+                    d:DebugPrint(moduleName .. " loaded in " .. (endTime - startTime) .. "s using " .. (endMem - startMem) .. "KB")
+                else
+                    ErrorHandler("Failed to load module " .. moduleName .. ": " .. tostring(errorMsg))
+                end
+            end
+        end
+    end
+    d:DebugPrint("Loaded " .. tostring(delayedCount) .. " delayed priority modules")
 end
 
 -- event handler
@@ -310,10 +339,10 @@ DFRL:RegisterEvent("PLAYER_LOGOUT")
 DFRL:SetScript("OnEvent", function()
 
 	-- init
-    if event == "PLAYER_ENTERING_WORLD" then
-        d.DebugPrint("EVENT: PLAYER_ENTERING_WORLD")
+    if event == "ADDON_LOADED" and arg1 == "DragonflightReloaded" then
+        d:DebugPrint("EVENT: ADDON_LOADED")
 
-        -- im the king so i put this here and everywhere. print belongs to me.
+        -- print belongs to me
         function print(msg)
             DEFAULT_CHAT_FRAME:AddMessage("|cffffd100DFRL: |r".. tostring(msg))
         end
@@ -324,6 +353,12 @@ DFRL:SetScript("OnEvent", function()
 
         print("Welcome to |cffffd200Dragonflight:|r Reloaded.")
         print("Open menu via |cffddddddESC|r or |cffddddddSLASH DFRL|r.")
+    end
+
+    -- In your event handler
+    if event == "PLAYER_ENTERING_WORLD" then
+        DFRL:LoadDelayedModules()
+        d:DebugPrint("EVENT: PLAYER_ENTERING_WORLD")
 
         DFRL:UnregisterEvent("PLAYER_ENTERING_WORLD")
     end
@@ -335,7 +370,7 @@ DFRL:SetScript("OnEvent", function()
             count = count + 1
         end
 
-        d.DebugPrint("EVENT: PLAYER_LOGOUT")
+        d:DebugPrint("EVENT: PLAYER_LOGOUT")
         DFRL:SaveDB()
     end
 end)

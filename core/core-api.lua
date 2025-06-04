@@ -3,7 +3,7 @@ function print(msg)
 end
 
 setfenv(1, DFRL:GetEnvironment())
-d.DebugPrint("BOOTING")
+d:DebugPrint("BOOTING")
 
 -- my api
 function print(msg)

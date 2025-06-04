@@ -3,16 +3,16 @@ DFRL:SetDefaults("micromenu", {
     enabled = {true},
     hidden = {false},
 
-    darkMode = {false, 1, "checkbox", "appearance", "Activate darkmode"},
-    microColor = {true, 2, "checkbox", "appearance", "Activate gray micro menu"},
-    microScale = {0.85, 3, "slider", {0.5, 1.5}, "appearance", "Adjusts the scale of the micro menu"},
-    microAlpha = {1, 4, "slider", {0.1, 1}, "appearance", "Adjusts the transparency of the micro menu"},
-    microSpacing = {3, 5, "slider", {0.5, 15}, "appearance", "Adjusts spacing between micro menu buttons"},
+    darkMode = {false, 1, "checkbox", "appearance", "Enable dark mode for the micro menu"},
+    switchColor = {true, 2, "checkbox", "micro basic", "Switch between gray and colorfull micro menu"},
+    microScale = {0.85, 3, "slider", {0.5, 1.5}, "micro basic", "Adjusts the scale of the micro menu"},
+    microAlpha = {1, 4, "slider", {0.1, 1}, "micro basic", "Adjusts the transparency of the micro menu"},
+    microSpacing = {3, 5, "slider", {0.5, 15}, "micro basic", "Adjusts spacing between micro menu buttons"},
 
 })
 
 DFRL:RegisterModule("micromenu", 1, function()
-    d.DebugPrint("BOOTING")
+    d:DebugPrint("BOOTING")
 
     local path = "Interface\\AddOns\\DragonflightReloaded\\media\\tex\\micromenu\\uimicromenu2x.tga"
     local buttonWidth = 20
@@ -323,7 +323,7 @@ DFRL:RegisterModule("micromenu", 1, function()
         end
     end
 
-    callbacks.microColor = function(value)
+    callbacks.switchColor = function(value)
         if value then
             local tempFrame = CreateFrame("Frame")
             local tempTexture = tempFrame:CreateTexture()

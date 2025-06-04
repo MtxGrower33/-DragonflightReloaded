@@ -2,15 +2,15 @@ DFRL:SetDefaults("smallframes", {
     enabled = {true},
     hidden = {false},
 
-    darkMode = {false, 1, "checkbox", "appearance", "Enable dark mode for pet and target frames"},
-    textShow = {false, 2, "checkbox", "appearance", "Show pet health and mana text"},
-    noPercent = {false, 3, "checkbox", "appearance", "Hide pet health and mana percent text"},
-    colorReaction = {true, 4, "checkbox", "appearance", "Color health bar based on target reaction (red=hostile, yellow=neutral, green=friendly)"},
+    darkMode = {false, 1, "checkbox", "appearance", "Enable dark mode for the pet and target of target frame"},
+    textShow = {false, 2, "checkbox", "text", "Show pet health and mana text"},
+    noPercent = {false, 3, "checkbox", "text", "Hide pet health and mana percent text"},
+    colorReaction = {true, 4, "checkbox", "bar color", "Color health bar based on target reaction"},
 
 })
 
 DFRL:RegisterModule("smallframes", 1, function()
-    d.DebugPrint("BOOTING")
+    d:DebugPrint("BOOTING")
 
     -- petframe
     PetFrameHealthBar:SetScript("OnEnter", nil)

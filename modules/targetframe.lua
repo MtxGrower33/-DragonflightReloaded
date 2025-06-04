@@ -2,16 +2,16 @@ DFRL:SetDefaults("targetframe", {
     enabled = {true},
     hidden = {false},
 
-    darkMode = {false, 1, "checkbox", "appearance", "Enable dark mode for target frame"},
-    textShow = {true, 2, "checkbox", "appearance", "Show health and mana text"},
-    noPercent = {true, 3, "checkbox", "appearance", "Show only current values without percentages"},
-    textColoring = {false, 4, "checkbox", "appearance", "Color text based on health/mana percentage"},
-    colorReaction = {true, 5, "checkbox", "appearance", "Color health bar based on target reaction (red=hostile, yellow=neutral, green=friendly)"},
+    darkMode = {false, 1, "checkbox", "appearance", "Enable dark mode for the target frame"},
+    textShow = {true, 2, "checkbox", "text", "Show health and mana text"},
+    noPercent = {true, 3, "checkbox", "text", "Show only current values without percentages"},
+    textColoring = {false, 4, "checkbox", "text", "Color text based on health/mana percentage"},
+    colorReaction = {true, 5, "checkbox", "bar color", "Color health bar based on target reaction"},
 
 })
 
 DFRL:RegisterModule("targetframe", 1, function()
-    d.DebugPrint("BOOTING")
+    d:DebugPrint("BOOTING")
 
     -- blizz
     do

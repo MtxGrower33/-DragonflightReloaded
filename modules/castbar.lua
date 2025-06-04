@@ -2,22 +2,24 @@ DFRL:SetDefaults("castbar", {
     enabled = {true},
     hidden = {false},
 
-    darkMode = {false, 1, "checkbox", "appearance", "Use dark mode for castbar border"},
-    setFillDirection = {"left", 2, "dropdown", { "left", "right", "center" }, "appearance", "Set fill direction"},
-    timeShow = {true, 3, "checkbox", "appearance", "Show casting time"},
-    castText = {true, 4, "checkbox", "appearance", "Show spell name text"},
-    shadowShow = {true, 5, "checkbox", "appearance", "Show drop shadow"},
-    cbWidth = {200, 6, "slider", {120, 350}, "appearance", "Change castbar width"},
+    darkMode = {false, 1, "checkbox", "appearance", "Enable dark mode for the castbar"},
 
-    cbHeight = {16, 7, "slider", {10, 30}, "appearance", "Change castbar height"},
-    cbFontSize = {12, 8, "slider", {5, 25}, "appearance", "Change castbar font size"},
-    cbBarColor = {{1, 0.82, 0}, 21, "colourslider", "appearance", "Change castbar color"},
-    cbFontY = {-16, 22, "slider", {-20, 20}, "appearance", "Change castbar font Y offset"},
+    setFillDirection = {"left", 2, "dropdown", { "left", "right", "center" }, "castbar basic", "Set fill direction"},
+    showShadow = {true, 3, "checkbox", "castbar basic", "Show drop shadow below the castbar"},
+    barWidth = {200, 4, "slider", {120, 350}, "castbar basic", "Change castbar width"},
+    barHeight = {16, 5, "slider", {10, 30}, "castbar basic", "Change castbar height"},
+
+    showTime = {true, 6, "checkbox", "text", "Show casting time"},
+    showSpell = {true, 7, "checkbox", "text", "Show spell name text"},
+    fontSize = {12, 8, "slider", {5, 25}, "text", "Change castbar font size"},
+    fontY = {-16, 9, "slider", {-20, 20}, "text", "Change castbar font Y offset"},
+
+    carColor = {{1, 0.82, 0}, 10, "colourslider", "castbar color", "Change castbar color"},
 
 })
 
 DFRL:RegisterModule("castbar", 1, function()
-    d.DebugPrint("BOOTING")
+    d:DebugPrint("BOOTING")
 
     local GetTime = GetTime
     local type = type
@@ -524,7 +526,7 @@ DFRL:RegisterModule("castbar", 1, function()
         end
     end
 
-    callbacks.timeShow = function(value)
+    callbacks.showTime = function(value)
         if value then
             castbar.timeText:Show()
         else
@@ -532,7 +534,7 @@ DFRL:RegisterModule("castbar", 1, function()
         end
     end
 
-    callbacks.castText = function(value)
+    callbacks.showSpell = function(value)
         if value then
             castbar.text:Show()
         else
@@ -540,7 +542,7 @@ DFRL:RegisterModule("castbar", 1, function()
         end
     end
 
-    callbacks.shadowShow = function(value)
+    callbacks.showShadow = function(value)
         if value then
             castbar.dropshadow:Show()
         else
@@ -548,7 +550,7 @@ DFRL:RegisterModule("castbar", 1, function()
         end
     end
 
-    callbacks.cbWidth = function(value)
+    callbacks.barWidth = function(value)
         castbar.config.width = value
 
         if castbar.frame then
@@ -564,7 +566,7 @@ DFRL:RegisterModule("castbar", 1, function()
         end
     end
 
-    callbacks.cbHeight = function(value)
+    callbacks.barHeight = function(value)
         castbar.config.height = value
         if castbar.frame then
             castbar.frame:SetHeight(value)
@@ -575,21 +577,21 @@ DFRL:RegisterModule("castbar", 1, function()
         end
     end
 
-    callbacks.cbFontSize = function(value)
+    callbacks.fontSize = function(value)
         castbar.config.fontSizeName = value
         castbar.config.fontSizeTime = value
         if castbar.text then castbar.text:SetFont(castbar.config.font, value, "OUTLINE") end
         if castbar.timeText then castbar.timeText:SetFont(castbar.config.font, value, "OUTLINE") end
     end
 
-    callbacks.cbBarColor = function(value)
+    callbacks.carColor = function(value)
         castbar.config.barColor = {r = value[1], g = value[2], b = value[3]}
         if castbar.barTexture then
             castbar.barTexture:SetVertexColor(value[1], value[2], value[3])
         end
     end
 
-    callbacks.cbFontY = function(value)
+    callbacks.fontY = function(value)
         if castbar.text then
             castbar.text:SetPoint("LEFT", castbar.frame, "LEFT", 5, value)
         end

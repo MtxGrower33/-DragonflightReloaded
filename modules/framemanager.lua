@@ -1,6 +1,6 @@
 ---@diagnostic disable: deprecated
 DFRL:RegisterModule("framemanager", 2, function()
-    d.DebugPrint("BOOTING")
+    d:DebugPrint("BOOTING")
 
     -- table
     local framesToMakeMovable = {
@@ -47,11 +47,11 @@ DFRL:RegisterModule("framemanager", 2, function()
         if not name then return end
 
         local x, y = frame:GetLeft(), frame:GetTop()
-        DFRL_FramePositions[name] = {x = x, y = y}
+        DFRL_FRAMEPOS[name] = {x = x, y = y}
     end
 
     function RestoreFramePositions()
-        for name, pos in pairs(DFRL_FramePositions) do
+        for name, pos in pairs(DFRL_FRAMEPOS) do
             local frame = _G[name]
             if frame then
                 frame:ClearAllPoints()

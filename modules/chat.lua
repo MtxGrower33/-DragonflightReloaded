@@ -2,15 +2,15 @@ DFRL:SetDefaults("chat", {
     enabled = {true},
     hidden = {false},
 
-    darkMode = {false, 1, "checkbox", "appearance", "Enable dark mode for player frame"},
-    chatButtonsShow = {true, 2, "checkbox", "appearance", "Show or hide chat buttons"},
-    chatButtonsOG = {true, 3, "checkbox", "appearance", "Use original Blizzard chat buttons"},
-    chatFade = {false, 4, "checkbox", "appearance", "Fade out chat text after 10 seconds"}
+    darkMode = {false, 1, "checkbox", "appearance", "Enable dark mode for the chat"},
+    showButtons = {true, 2, "checkbox", "chat basic", "Show or hide chat buttons"},
+    blizzardButtons = {true, 3, "checkbox", "chat basic", "Use original Blizzard chat buttons"},
+    fadeChat = {false, 4, "checkbox", "tweaks", "Fade out chat text after 10 seconds"}
 
 })
 
 DFRL:RegisterModule("chat", 1, function()
-    d.DebugPrint("BOOTING")
+    d:DebugPrint("BOOTING")
 
     ChatFrame1Tab:SetClampedToScreen(true)
 
@@ -90,7 +90,7 @@ DFRL:RegisterModule("chat", 1, function()
         end
     end
 
-    callbacks.chatButtonsShow = function(value)
+    callbacks.showButtons = function(value)
         if ChatFrameMenuButton then
             if value then
                 ChatFrameMenuButton:Show()
@@ -130,7 +130,7 @@ DFRL:RegisterModule("chat", 1, function()
         end
     end
 
-    callbacks.chatButtonsOG = function(value)
+    callbacks.blizzardButtons = function(value)
         local buttonScale = 0.8
 
         if value then
@@ -209,10 +209,10 @@ DFRL:RegisterModule("chat", 1, function()
         end
 
         -- dark mode if enabled
-        callbacks.darkMode(DFRL:GetConfig("chat", "darkMode")[1])
+        callbacks.darkMode(DFRL:GetConfig("chat", "darkMode"))
     end
 
-    callbacks.chatFade = function(value)
+    callbacks.fadeChat = function(value)
         for i = 1, NUM_CHAT_WINDOWS do
             local f = _G["ChatFrame"..i]
             if value then

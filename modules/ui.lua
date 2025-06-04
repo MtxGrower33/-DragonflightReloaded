@@ -3,15 +3,15 @@ DFRL:SetDefaults("ui", {
     enabled = {true},
     hidden = {false},
 
-    darkModeQuestLog = {false, 1, "checkbox", "appearance", "Darkmode questlog"},
-    darkModeGameMenu = {false, 2, "checkbox", "appearance", "Darkmode game menu"},
-    darkModeCharacterFrame = {false, 3, "checkbox", "appearance", "Darkmode characterframe"},
-    uiErrorMessage = {false, 4, "checkbox", "appearance", "Hide the top UI error message (eg. 'Spell is not ready')"},
+    questLog = {false, 1, "checkbox", "appearance", "Enable dark mode for the questlog"},
+    gameMenu = {false, 2, "checkbox", "appearance", "Enable dark mode for the game menu"},
+    characterPanel = {false, 3, "checkbox", "appearance", "Enable dark mode for the character panel"},
+    errorMessage = {false, 4, "checkbox", "tweaks", "Hide the top UI error message (e.g. 'Spell is not ready')"},
 
 })
 
 DFRL:RegisterModule("ui", 1, function()
-    d.DebugPrint("BOOTING")
+    d:DebugPrint("BOOTING")
 
     -- hide stuff
     do
@@ -275,7 +275,7 @@ DFRL:RegisterModule("ui", 1, function()
     -- callbacks
     local callbacks = {}
 
-    callbacks.darkModeQuestLog = function(value)
+    callbacks.questLog = function(value)
         local r, g, b, a
         if value then
             r, g, b, a = 0.4, 0.4, 0.4, 1
@@ -343,7 +343,7 @@ DFRL:RegisterModule("ui", 1, function()
         end
     end
 
-    callbacks.darkModeGameMenu = function(value)
+    callbacks.gameMenu = function(value)
         local darkColor = {0.2, 0.2, 0.2}
         local lightColor = {1, 1, 1}
         local color = value and darkColor or lightColor
@@ -392,7 +392,7 @@ DFRL:RegisterModule("ui", 1, function()
         end
     end
 
-    callbacks.darkModeCharacterFrame = function(value)
+    callbacks.characterPanel = function(value)
         local darkColor = {0.4, 0.4, 0.4, 1}
         local lightColor = {1, 1, 1, 1}
         local color = value and darkColor or lightColor
@@ -452,7 +452,7 @@ DFRL:RegisterModule("ui", 1, function()
         end
     end
 
-    callbacks.uiErrorMessage = function (value)
+    callbacks.errorMessag = function (value)
         if value then
             UIErrorsFrame:UnregisterEvent("UI_ERROR_MESSAGE")
         else

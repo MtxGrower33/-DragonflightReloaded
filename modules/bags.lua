@@ -2,15 +2,16 @@ DFRL:SetDefaults("bags", {
     enabled = {true},
     hidden = {false},
 
-    darkMode = {false, 1, "checkbox", "appearance", "Activate darkmode"},
-    bagsExpanded = {true, 2, "checkbox", "appearance", "Show or hide small bag slots"},
-    bagHide = {false, 3, "checkbox", "appearance", "Show or hide the bag frame"},
-    bagScale = {1.5, 4, "slider", {0.9, 2.5}, "appearance", "Adjusts the scale of the main backpack"},
-    bagAlpha = {1, 5, "slider", {0.1, 1}, "appearance", "Adjusts the transparency of all bags"},
+    darkMode = {false, 1, "checkbox", "appearance", "Enable dark mode for the bags"},
+
+    toggleBags = {true, 2, "checkbox", "bag basic", "Show or hide small bag slots"},
+    bagScale = {1.5, 3, "slider", {0.5, 2.5}, "bag basic", "Adjusts the scale of the main backpack"},
+    bagAlpha = {1, 4, "slider", {0.1, 1}, "bag basic", "Adjusts the transparency of all bags"},
+    hideBags = {false, 5, "checkbox", "tweaks", "Show or hide the bag frame"},
 })
 
 DFRL:RegisterModule("bags", 1, function()
-    d.DebugPrint("BOOTING")
+    d:DebugPrint("BOOTING")
 
     -- move big bag
     do
@@ -34,7 +35,7 @@ DFRL:RegisterModule("bags", 1, function()
                 local texture = 'Interface\\AddOns\\DragonflightReloaded\\media\\tex\\bags\\bigbag'
                 local highlight = 'Interface\\AddOns\\DragonflightReloaded\\media\\tex\\bags\\bigbagHighlight'
 
-                MainMenuBarBackpackButton:SetScale(DFRL:GetConfig("bags", "bagScale")[1])
+                MainMenuBarBackpackButton:SetScale(DFRL:GetConfig("bags", "bagScale"))
 
                 SetItemButtonTexture(MainMenuBarBackpackButton, texture)
                 MainMenuBarBackpackButton:SetHighlightTexture(highlight)
@@ -212,8 +213,8 @@ DFRL:RegisterModule("bags", 1, function()
 
                 DFRL.bagToggleButton = bagToggleButton
                 DFRL.bagToggleButton:SetScript("OnClick", function()
-                    local currentValue = DFRL:GetConfig("bags", "bagsExpanded")[1]
-                    DFRL:SetConfig("bags", "bagsExpanded", not currentValue)
+                    local currentValue = DFRL:GetConfig("bags", "toggleBags")
+                    DFRL:SetConfig("bags", "toggleBags", not currentValue)
                 end)
             end
         end
@@ -290,9 +291,9 @@ DFRL:RegisterModule("bags", 1, function()
         end
     end
 
-    callbacks.bagsExpanded = function(value)
+    callbacks.toggleBags = function(value)
         -- show/hide only if bags not hidden
-        local bagHideValue = DFRL:GetConfig("bags", "bagHide")[1]
+        local bagHideValue = DFRL:GetConfig("bags", "hideBags")
 
         for i = 0, 3 do
             local slot = _G['CharacterBag' .. i .. 'Slot']
@@ -348,7 +349,7 @@ DFRL:RegisterModule("bags", 1, function()
         end
     end
 
-    callbacks.bagHide = function (value)
+    callbacks.hideBags = function (value)
         if value then
             MainMenuBarBackpackButton:Hide()
             for i = 0, 3 do
