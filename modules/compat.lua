@@ -1,6 +1,7 @@
 ---@diagnostic disable: undefined-global, deprecated
 setfenv(1, DFRL:GetEnvironment())
-d.DebugPrint("BOOTING")
+d:DebugPrint("BOOTING")
+
 -- ALL CODE HERE RUNS RIGHT AWAY, NOT ON MODULE LOAD ("PLAYER_ENTERING_WORLD")
 
 --===========================
