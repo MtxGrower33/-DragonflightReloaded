@@ -469,7 +469,7 @@ DFRL:RegisterModule("gui", 2, function()
             ["Auto Stance"]              = { true, 4, "checkbox", "automation",    "Auto switch stance when needed" },
             ["Cooldown Numbers"]         = { true, 5, "checkbox", "combat",        "Show cooldowns as numbers" },
             ["Debuff Timer"]             = { true, 6, "checkbox", "combat",        "Show debuff durations" },
-            ["Enemy Castbars"]           = { true, 7, "checkbox", "castbars & plates", "Show enemy nameplate castbars" },
+            ["Enemy Castbars"]           = { true, 7, "checkbox", "castbars & plates", "Show enemy unitframe castbars" },
             ["Nameplate Castbar"]        = { true, 8, "checkbox", "castbars & plates", "Show castbar on nameplates" },
             ["Nameplate Scale"]          = { true, 9, "checkbox", "castbars & plates", "Scale nameplates up or down" },
             ["Super WoW Compatibility"]  = { true, 10, "checkbox", "compatibility", "Support Super WoW addons" },
