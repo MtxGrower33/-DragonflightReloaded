@@ -442,12 +442,19 @@ DFRL:RegisterModule("smallframes", 2, function()
             Setup.framesState:updateToTColor()
         end)
 
+        -- Create a single reusable timer frame
+        local updateTimer = CreateFrame("Frame")
+        local isUpdating = false
+        
         hooksecurefunc("TargetofTarget_Update", function()
-            local updateTimer = CreateFrame("Frame")
-            updateTimer:SetScript("OnUpdate", function()
-                Setup.framesState:updateToTColor()
-                updateTimer:SetScript("OnUpdate", nil)
-            end)
+            if not isUpdating then
+                isUpdating = true
+                updateTimer:SetScript("OnUpdate", function()
+                    Setup.framesState:updateToTColor()
+                    updateTimer:SetScript("OnUpdate", nil)
+                    isUpdating = false
+                end)
+            end
         end)
     end
 
