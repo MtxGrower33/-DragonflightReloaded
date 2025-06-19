@@ -241,6 +241,7 @@ DFRL:RegisterModule("ui", 2, function()
                         bg:SetTexture("Interface\\AddOns\\DragonflightReloaded\\media\\tex\\ui\\spell_bg.tga")
                         bg:SetPoint("TOPLEFT", button, "TOPLEFT", -3, 3)
                         bg:SetPoint("BOTTOMRIGHT", button, "BOTTOMRIGHT", 3, -3)
+                        _G["SpellButton" .. i.."SubSpellName"]:SetTextColor(0.9, 0.9, 0.8,0.6);
                     end
                 end
             end
