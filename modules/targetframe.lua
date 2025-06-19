@@ -455,9 +455,6 @@ DFRL:RegisterModule("targetframe", 1, function()
                 StaticPopup_Show("DFRL_RELOAD_REQUIRED")
                 return
             end
-            Setup:CheckTargetTapped()
-            Setup:UpdateTexts()
-            Setup:UpdateBarColor()
         elseif event == "PLAYER_TARGET_CHANGED" then
             Setup:CheckTargetTapped()
             Setup:UpdateTexts()
