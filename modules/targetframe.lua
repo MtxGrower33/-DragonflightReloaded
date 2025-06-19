@@ -436,7 +436,29 @@ DFRL:RegisterModule("targetframe", 1, function()
     f:RegisterEvent("UNIT_RAGE")
     f:RegisterEvent("UNIT_FOCUS")
     f:SetScript("OnEvent", function()
-        if event == "PLAYER_TARGET_CHANGED" or event == "PLAYER_ENTERING_WORLD" then
+        if event == "PLAYER_ENTERING_WORLD" then
+            local currentValue = GetCVar("statusBarText")
+            if currentValue ~= "0" then
+                SetCVar("statusBarText", "0")
+                StaticPopupDialogs["DFRL_RELOAD_REQUIRED"] = {
+                    text = "DragonflightReloaded has disabled the 'Show Status Text' setting to prevent display issues. A UI reload is required to complete this change.",
+                    button1 = "Reload Now",
+                    button2 = "Later",
+                    OnAccept = function()
+                        ChatFrameEditBox:SetText("/reload")
+                        ChatEdit_SendText(ChatFrameEditBox)
+                    end,
+                    timeout = 0,
+                    whileDead = 1,
+                    hideOnEscape = 1
+                }
+                StaticPopup_Show("DFRL_RELOAD_REQUIRED")
+                return
+            end
+            Setup:CheckTargetTapped()
+            Setup:UpdateTexts()
+            Setup:UpdateBarColor()
+        elseif event == "PLAYER_TARGET_CHANGED" then
             Setup:CheckTargetTapped()
             Setup:UpdateTexts()
             Setup:UpdateBarColor()
