@@ -1035,7 +1035,7 @@ DFRL:RegisterModule("gui", 2, function()
 
                 -- set initial state
                 local isEnabled = true
-                if tempDB and tempDB[checkbox.moduleName] and tempDB[checkbox.moduleName]["enabled"] then
+                if tempDB and tempDB[checkbox.moduleName] and tempDB[checkbox.moduleName]["enabled"] ~= nil then
                     isEnabled = tempDB[checkbox.moduleName]["enabled"]
                 end
                 checkbox:SetChecked(isEnabled)
