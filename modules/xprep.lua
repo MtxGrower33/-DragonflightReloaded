@@ -583,9 +583,7 @@ DFRL:RegisterModule("xprep", 1, function()
                 f:SetScript("OnUpdate", function()
                     Setup.xpOnGainTimer = Setup.xpOnGainTimer - arg1
                     if Setup.xpOnGainTimer <= 0 then
-                        if not DFRL:GetConfig("xprep", "showXpText") or DFRL:GetConfig("xprep", "hoverXP") then
-                            Setup.xpBarText:Hide()
-                        end
+                        Setup.xpBarText:Hide()
                         this:SetScript("OnUpdate", nil)
                     end
                 end)
