@@ -101,6 +101,17 @@ DFRL:RegisterModule("targetframe", 1, function()
         self.texts.healthValue = self.texts.healthTextFrame:CreateFontString(nil)
         self.texts.healthValue:SetFont(cfg.font, cfg.healthFontSize, cfg.outline)
         self.texts.healthValue:SetPoint("RIGHT", TargetFrameHealthBar, "RIGHT", -5, 0)
+
+        -- Turtle-WoW <Status Bar Text> option fix
+        if GetCVar("statusBarText") == "1" then
+                if TargetHPText then
+                    TargetHPText:Hide()
+                end
+                if TargetHPPercText then
+                    TargetHPPercText:Hide()
+                end
+        end
+            
     end
 
     function Setup:ManaBar()
