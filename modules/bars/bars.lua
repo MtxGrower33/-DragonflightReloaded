@@ -495,7 +495,7 @@ DFRL:NewMod("Bars", 1, function()
 
             -- event handler
             if not self.hotkeyBindingFrame then
-                self.hotkeyBindingFrame = CreateFrame("Frame")
+                self.hotkeyBindingFrame = CreateFrame("Frame", "DFRL_HotkeyBinding")
                 self.hotkeyBindingFrame:RegisterEvent("UPDATE_BINDINGS")
                 self.hotkeyBindingFrame:SetScript("OnEvent", function()
                     UpdateHotkeys()
