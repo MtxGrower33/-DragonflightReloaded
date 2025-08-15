@@ -276,8 +276,8 @@ function DFRL:GetTempValue(name, key)
 end
 
 function DFRL:GetTempDB(mod, key)
-    local caller = debugstack(2, 2, 0)
-    debugprint("Config requested for " .. mod .. "." .. key .. ": " .. tostring(self.tempDB[mod][key]) .. " by " .. caller)
+    --local caller = debugstack(2, 2, 0)
+    --debugprint("Config requested for " .. mod .. "." .. key .. ": " .. tostring(self.tempDB[mod][key]) .. " by " .. caller)
     return self.tempDB[mod][key]
 end
 
