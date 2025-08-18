@@ -48,7 +48,7 @@ DFRL:NewMod("Collector", 1, function()
         local ignored = {
             "Note", "GatherNote", "MinimapIcon", "GatherMatePin", "QuestieNote",
             "MiniNotePOI", "CartographerNotesPOI", "RecipeRadarMinimapIcon",
-            "MinimapZoomIn", "MinimapZoomOut"
+            "MinimapZoomIn", "MinimapZoomOut", "LFTMinimapButton", "MinimapBattlefieldFrame"
         }
 
         local name = frame:GetName()

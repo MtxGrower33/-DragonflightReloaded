@@ -234,7 +234,6 @@ DFRL:NewMod("Micro", 1, function()
     end
 
     function Setup:HideOtherUI()
-        if LFTMinimapButton then LFTMinimapButton:Hide() end
         if MicroButtonPortrait then MicroButtonPortrait:Hide() end
         if ShopMicroButton then ShopMicroButton:Hide() end
         if PVPMicroButton then PVPMicroButton:Hide() end

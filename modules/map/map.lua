@@ -224,6 +224,21 @@ DFRL:NewMod("Map", 1, function()
             DFRL.questframe = self.questframe
         end
 
+        function Setup:LFT()
+            LFTMinimapButton:Hide()
+            LFTMinimapButton:ClearAllPoints()
+            LFTMinimapButton:SetParent(Minimap)
+            LFTMinimapButton:SetPoint("TOPLEFT", Minimap, "BOTTOMLEFT", 45, 20)
+            if LFT_OnQueueEnter and LFT_OnQueueLeave then
+                hooksecurefunc("LFT_OnQueueEnter", function()
+                    LFTMinimapButton:Show()
+                end)
+                hooksecurefunc("LFT_OnQueueLeave", function()
+                    LFTMinimapButton:Hide()
+                end)
+            end
+        end
+
         function Setup:EBC()
             if _G.EBC_Minimap then
                 _G.EBC_Minimap:Hide()
@@ -476,6 +491,7 @@ DFRL:NewMod("Map", 1, function()
             Setup:Tracker()
             Setup:Durability()
             Setup:Questlog()
+            Setup:LFT()
             Setup:EBC()
 
             -- Setup:Collector()
