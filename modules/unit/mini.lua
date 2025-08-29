@@ -2,7 +2,8 @@ DFRL:NewDefaults("Mini", {
     enabled = {true},
     miniDarkMode = {0, "slider", {0, 1}, nil, "mini appearance", 1, "Adjust dark mode intensity", nil, nil},
     miniTextShow = {true, "checkbox", nil, nil, "mini text settings", 2, "Show pet health and mana text", nil, nil},
-    noPercent = {true, "checkbox", nil, nil, "mini text settings", 3, "Hide pet health and mana percent text", nil, nil},
+    miniTextMaxShow = {true, "checkbox", nil, nil, "mini text settings", 3, "Show pet max health and mana text", nil, nil},
+    noPercent = {true, "checkbox", nil, nil, "mini text settings", 4, "Hide pet health and mana percent text", nil, nil},
     frameFont = {"BigNoodleTitling", "dropdown", {
         "FRIZQT__.TTF",
         "Expressway",
@@ -16,17 +17,18 @@ DFRL:NewDefaults("Mini", {
         "BigNoodleTitling",
         "Continuum",
         "DieDieDie"
-    }, nil, "mini text settings", 4, "Change the font used for all smaller frames", nil, nil},
-    colorReaction = {true, "checkbox", nil, nil, "mini bar color", 5, "Color health bar based on target reaction", nil, nil},
-    colorClass = {false, "checkbox", nil, nil, "mini bar color", 6, "Color health bar based on target class", nil, nil},
-    partyFrameScale = {1, "slider", {0.7, 1.3}, nil, "mini scaling", 7, "Adjust party frame size", nil, nil},
-    petFrameScale = {1, "slider", {0.7, 1.3}, nil, "mini scaling", 8, "Adjust pet frame size", nil, nil},
-    totFrameScale = {1, "slider", {0.7, 1.3}, nil, "mini scaling", 9, "Adjust target of target frame size", nil, nil},
+    }, nil, "mini text settings", 5, "Change the font used for all smaller frames", nil, nil},
+    colorReaction = {true, "checkbox", nil, nil, "mini bar color", 6, "Color health bar based on target reaction", nil, nil},
+    colorClass = {false, "checkbox", nil, nil, "mini bar color", 7, "Color health bar based on target class", nil, nil},
+    partyFrameScale = {1, "slider", {0.7, 1.3}, nil, "mini scaling", 8, "Adjust party frame size", nil, nil},
+    petFrameScale = {1, "slider", {0.7, 1.3}, nil, "mini scaling", 9, "Adjust pet frame size", nil, nil},
+    totFrameScale = {1, "slider", {0.7, 1.3}, nil, "mini scaling", 10, "Adjust target of target frame size", nil, nil},
 })
 
 DFRL:NewMod("Mini", 1, function()
     local configCache = {
         noPercent = nil,
+        miniTextMaxShow = nil,
         lastUpdate = 0
     }
 
@@ -327,13 +329,13 @@ DFRL:NewMod("Mini", 1, function()
         end
         if noPercentEnabled then
             self.totHealthPercentText:SetText("")
-            self.totHealthValueText:SetText(health)
+            self.totHealthValueText:SetText(health .. (configCache.miniTextMaxShow and "/" .. maxHealth or ""))
             self.totHealthValueText:ClearAllPoints()
             self.totHealthValueText:SetPoint("CENTER", TargetofTargetHealthBar, "CENTER", 0, 0)
 
             self.totManaPercentText:SetText("")
             if maxMana > 0 then
-                self.totManaValueText:SetText(mana)
+                self.totManaValueText:SetText(mana .. (configCache.miniTextMaxShow and "/" .. maxMana or ""))
                 self.totManaValueText:ClearAllPoints()
                 self.totManaValueText:SetPoint("CENTER", TargetofTargetManaBar, "CENTER", 0, 0)
             else
@@ -341,13 +343,13 @@ DFRL:NewMod("Mini", 1, function()
             end
         else
             self.totHealthPercentText:SetText(healthPercent .. "%")
-            self.totHealthValueText:SetText(health)
+            self.totHealthValueText:SetText(health .. (configCache.miniTextMaxShow and "/" .. maxHealth or ""))
             self.totHealthValueText:ClearAllPoints()
             self.totHealthValueText:SetPoint("RIGHT", TargetofTargetHealthBar, "RIGHT", -5, 0)
 
             if maxMana > 0 then
                 self.totManaPercentText:SetText(manaPercent .. "%")
-                self.totManaValueText:SetText(mana)
+                self.totManaValueText:SetText(mana .. (configCache.miniTextMaxShow and "/" .. maxMana or ""))
                 self.totManaValueText:ClearAllPoints()
                 self.totManaValueText:SetPoint("RIGHT", TargetofTargetManaBar, "RIGHT", -5, 0)
             else
@@ -498,6 +500,12 @@ DFRL:NewMod("Mini", 1, function()
         end
     end
 
+     callbacks.miniTextMaxShow = function(value)
+        configCache.miniTextMaxShow = value
+        configCache.lastUpdate = GetTime()
+        Setup:UpdateTexts()
+    end
+    
     callbacks.noPercent = function(value)
         configCache.noPercent = value
         configCache.lastUpdate = GetTime()
