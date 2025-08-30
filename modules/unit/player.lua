@@ -5,11 +5,12 @@ DFRL:NewDefaults("Player", {
     textShow = {true, "checkbox", nil, nil, "text settings", 3, "Show health and mana text", nil, nil},
     textMaxShow = {true, "checkbox", nil, nil, "text settings", 4, "Show max health and mana text", nil, nil},
     noPercent = {true, "checkbox", nil, nil, "text settings", 5, "Show only current values without percentages", nil, nil},
-    textColoring = {false, "checkbox", nil, nil, "text settings", 6, "Color text based on health/mana percentage from white to red", nil, nil},
-    healthSize = {15, "slider", {8, 20}, nil, "text settings", 7, "Health text font size", nil, nil},
-    manaSize = {9, "slider", {8, 20}, nil, "text settings", 8, "Mana text font size", nil, nil},
-    nameSize = {9, "slider", {6, 16}, nil, "text settings", 9, "Name text font size", nil, nil},
-    levelSize = {9, "slider", {6, 16}, nil, "text settings", 10, "Level text font size", nil, nil},
+    textColoringHealth = {false, "checkbox", nil, nil, "text settings", 6, "Color text based on health percentage from white to red", nil, nil},
+    textColoringResource = {false, "checkbox", nil, nil, "text settings", 7, "Color text based on resource (mana/rage/energy) percentage from white to red", nil, nil},
+    healthSize = {15, "slider", {8, 20}, nil, "text settings", 8, "Health text font size", nil, nil},
+    manaSize = {9, "slider", {8, 20}, nil, "text settings", 9, "Mana text font size", nil, nil},
+    nameSize = {9, "slider", {6, 16}, nil, "text settings", 10, "Name text font size", nil, nil},
+    levelSize = {9, "slider", {6, 16}, nil, "text settings", 11, "Level text font size", nil, nil},
     frameFont = {"BigNoodleTitling", "dropdown", {
         "FRIZQT__.TTF",
         "Expressway",
@@ -23,18 +24,18 @@ DFRL:NewDefaults("Player", {
         "BigNoodleTitling",
         "Continuum",
         "DieDieDie"
-    }, nil, "text settings", 11, "Change the font used for the playerframe", nil, nil},
-    classColor = {false, "checkbox", nil, nil, "bar color", 12, "Color health bar based on class", nil, nil},
-    classPortrait = {false, "checkbox", nil, nil, "tweaks", 13, "Activate 2D class portrait icons", nil, nil},
-    frameHide = {false, "checkbox", nil, nil, "tweaks", 14, "Hide frame at full HP when not in combat", nil, nil},
-    frameScale = {1, "slider", {0.7, 1.3}, nil, "tweaks", 15, "Adjust frame size", nil, nil},
-    combatGlow = {true, "checkbox", nil, nil, "effects", 16, "Enable combat pulse animation", nil, nil},
-    glowSpeed = {1, "slider", {0.4, 5}, nil, "effects", 17, "Adjust the speed of the combat pulsing", nil, nil},
-    glowAlpha = {1, "slider", {0.1, 1}, nil, "effects", 18, "Adjust the maximum alpha of the combat pulsing", nil, nil},
-    restingGlow = {true, "checkbox", nil, nil, "effects", 19, "Enable resting glow animation", nil, nil},
-    restingSpeed = {1, "slider", {0.4, 5}, nil, "effects", 20, "Adjust the speed of the resting pulsing", nil, nil},
-    restingAlpha = {1, "slider", {0.1, 1}, nil, "effects", 21, "Adjust the maximum alpha of the resting pulsing", nil, nil},
-    restingColor = {{0, 1, 1}, "colour", nil, nil, "effects", 22, "Changes the colour of the resting glow animation", nil, nil},
+    }, nil, "text settings", 12, "Change the font used for the playerframe", nil, nil},
+    classColor = {false, "checkbox", nil, nil, "bar color", 13, "Color health bar based on class", nil, nil},
+    classPortrait = {false, "checkbox", nil, nil, "tweaks", 14, "Activate 2D class portrait icons", nil, nil},
+    frameHide = {false, "checkbox", nil, nil, "tweaks", 15, "Hide frame at full HP when not in combat", nil, nil},
+    frameScale = {1, "slider", {0.7, 1.3}, nil, "tweaks", 16, "Adjust frame size", nil, nil},
+    combatGlow = {true, "checkbox", nil, nil, "effects", 17, "Enable combat pulse animation", nil, nil},
+    glowSpeed = {1, "slider", {0.4, 5}, nil, "effects", 18, "Adjust the speed of the combat pulsing", nil, nil},
+    glowAlpha = {1, "slider", {0.1, 1}, nil, "effects", 19, "Adjust the maximum alpha of the combat pulsing", nil, nil},
+    restingGlow = {true, "checkbox", nil, nil, "effects", 20, "Enable resting glow animation", nil, nil},
+    restingSpeed = {1, "slider", {0.4, 5}, nil, "effects", 21, "Adjust the speed of the resting pulsing", nil, nil},
+    restingAlpha = {1, "slider", {0.1, 1}, nil, "effects", 22, "Adjust the maximum alpha of the resting pulsing", nil, nil},
+    restingColor = {{0, 1, 1}, "colour", nil, nil, "effects", 23, "Changes the colour of the resting glow animation", nil, nil},
 })
 
 DFRL:NewMod("Player", 1, function()
@@ -385,14 +386,10 @@ DFRL:NewMod("Player", 1, function()
         callbacks.textShow(DFRL:GetTempDB("Player", "textShow"))
     end
 
-    callbacks.textColoring = function(value)
+    callbacks.textColoringHealth  = function(value)
         local health = UnitHealth("player")
         local maxHealth = UnitHealthMax("player")
-        local mana = UnitMana("player")
-        local maxMana = UnitManaMax("player")
-
         local healthPercent = maxHealth > 0 and (health / maxHealth) or 1
-        local manaPercent = maxMana > 0 and (mana / maxMana) or 1
 
         local function getColor(p)
             return 1, p, p
@@ -400,16 +397,30 @@ DFRL:NewMod("Player", 1, function()
 
         if value then
             local hr, hg, hb = getColor(healthPercent)
-            local mr, mg, mb = getColor(manaPercent)
             Setup.texts.healthValue:SetTextColor(hr, hg, hb)
             Setup.texts.healthPercent:SetTextColor(hr, hg, hb)
+        else
+            local hc = Setup.texts.config.healthColor
+            Setup.texts.healthValue:SetTextColor(hc[1], hc[2], hc[3])
+            Setup.texts.healthPercent:SetTextColor(hc[1], hc[2], hc[3])
+        end
+    end
+
+    callbacks.textColoringResource = function(value)
+        local mana = UnitMana("player")
+        local maxMana = UnitManaMax("player")
+        local manaPercent = maxMana > 0 and (mana / maxMana) or 1
+
+        local function getColor(p)
+            return 1, p, p
+        end
+
+        if value then
+            local mr, mg, mb = getColor(manaPercent)
             Setup.texts.manaValue:SetTextColor(mr, mg, mb)
             Setup.texts.manaPercent:SetTextColor(mr, mg, mb)
         else
-            local hc = Setup.texts.config.healthColor
             local mc = Setup.texts.config.manaColor
-            Setup.texts.healthValue:SetTextColor(hc[1], hc[2], hc[3])
-            Setup.texts.healthPercent:SetTextColor(hc[1], hc[2], hc[3])
             Setup.texts.manaValue:SetTextColor(mc[1], mc[2], mc[3])
             Setup.texts.manaPercent:SetTextColor(mc[1], mc[2], mc[3])
         end
@@ -765,7 +776,8 @@ DFRL:NewMod("Player", 1, function()
         event == "PLAYER_REGEN_DISABLED" or
         arg1 == "player" then
             callbacks.textShow(DFRL:GetTempDB("Player", "textShow"))
-            callbacks.textColoring(DFRL:GetTempDB("Player", "textColoring"))
+            callbacks.textColoringHealth(DFRL:GetTempDB("Player", "textColoringHealth"))
+            callbacks.textColoringResource(DFRL:GetTempDB("Player", "textColoringResource"))
             callbacks.classColor(DFRL:GetTempDB("Player", "classColor"))
         end
     end)
