@@ -4,11 +4,12 @@ DFRL:NewDefaults("Target", {
     textShow = {true, "checkbox", nil, nil, "target text settings", 2, "Show health and mana text", nil, nil},
     textMaxShow = {true, "checkbox", nil, nil, "target text settings", 3, "Show max health and mana text", nil, nil},
     noPercent = {true, "checkbox", nil, nil, "target text settings", 4, "Show only current values without percentages", nil, nil},
-    textColoring = {false, "checkbox", nil, nil, "target text settings", 5, "Color text based on health/mana percentage", nil, nil},
-    healthSize = {15, "slider", {8, 20}, nil, "target text settings", 6, "Health text font size", nil, nil},
-    manaSize = {9, "slider", {8, 20}, nil, "target text settings", 7, "Mana text font size", nil, nil},
-    nameSize = {9, "slider", {6, 16}, nil, "target text settings", 8, "Target name text font size", nil, nil},
-    levelSize = {9, "slider", {6, 16}, nil, "target text settings", 9, "Target level text font size", nil, nil},
+    textColoringHealth = {false, "checkbox", nil, nil, "target text settings", 5, "Color text based on health percentage", nil, nil},
+    textColoringResource = {false, "checkbox", nil, nil, "target text settings", 6, "Color text based on resource (mana/rage/energy) percentage", nil, nil},
+    healthSize = {15, "slider", {8, 20}, nil, "target text settings", 7, "Health text font size", nil, nil},
+    manaSize = {9, "slider", {8, 20}, nil, "target text settings", 8, "Mana text font size", nil, nil},
+    nameSize = {9, "slider", {6, 16}, nil, "target text settings", 9, "Target name text font size", nil, nil},
+    levelSize = {9, "slider", {6, 16}, nil, "target text settings", 10, "Target level text font size", nil, nil},
     frameFont = {"BigNoodleTitling", "dropdown", {
         "FRIZQT__.TTF",
         "Expressway",
@@ -22,17 +23,18 @@ DFRL:NewDefaults("Target", {
         "BigNoodleTitling",
         "Continuum",
         "DieDieDie"
-    }, nil, "text settings", 10, "Change the font used for the targetframe", nil, nil},
-    colorReaction = {true, "checkbox", nil, nil, "target bar color", 11, "Color health bar based on target reaction", nil, nil},
-    colorClass = {false, "checkbox", nil, nil, "target bar color", 12, "Color health bar based on target class", nil, nil},
-    frameScale = {1, "slider", {0.7, 1.3}, nil, "target tweaks", 13, "Adjust frame size", nil, nil},
+    }, nil, "text settings", 11, "Change the font used for the targetframe", nil, nil},
+    colorReaction = {true, "checkbox", nil, nil, "target bar color", 12, "Color health bar based on target reaction", nil, nil},
+    colorClass = {false, "checkbox", nil, nil, "target bar color", 13, "Color health bar based on target class", nil, nil},
+    frameScale = {1, "slider", {0.7, 1.3}, nil, "target tweaks", 14, "Adjust frame size", nil, nil},
 })
 
 DFRL:NewMod("Target", 1, function()
     local configCache = {
         noPercent = nil,
         textMaxShow = nil,
-        textColoring = nil,
+        textColoringHealth = nil,
+        textColoringResource = nil,
         lastUpdate = 0
     }
 
@@ -177,14 +179,16 @@ DFRL:NewMod("Target", 1, function()
         local manaPercentInt = math.floor(manaPercent * 100)
 
         local now = GetTime()
-        if not configCache.noPercent or not configCache.textColoring or (now - configCache.lastUpdate > 1) then
+        if not configCache.noPercent or not configCache.textColoringHealth or not configCache.textColoringResource or (now - configCache.lastUpdate > 1) then
             configCache.noPercent = DFRL:GetTempDB("Target", "noPercent")
-            configCache.textColoring = DFRL:GetTempDB("Target", "textColoring")
+            configCache.textColoringHealth = DFRL:GetTempDB("Target", "textColoringHealth")
+            configCache.textColoringResource = DFRL:GetTempDB("Target", "textColoringResource")
             configCache.lastUpdate = now
         end
 
         local noPercentEnabled = configCache.noPercent
-        local coloringEnabled = configCache.textColoring
+        local coloringHealthEnabled = configCache.textColoringHealth
+        local coloringResourceEnabled = configCache.textColoringResource
 
         local isDead = UnitIsDead("target")
 
@@ -228,23 +232,26 @@ DFRL:NewMod("Target", 1, function()
             end
         end
 
-        if coloringEnabled then
-            local r = 1
-            local g = healthPercent
-            local b = healthPercent
+        local r, g, b
+
+        if coloringHealthEnabled then
+            r = 1
+            g = healthPercent
+            b = healthPercent
             self.texts.healthPercent:SetTextColor(r, g, b)
             self.texts.healthValue:SetTextColor(r, g, b)
-
-            if maxMana > 0 then
-                r = 1
-                g = manaPercent
-                b = manaPercent
-                self.texts.manaPercent:SetTextColor(r, g, b)
-                self.texts.manaValue:SetTextColor(r, g, b)
-            end
         else
             self.texts.healthPercent:SetTextColor(1, 1, 1)
             self.texts.healthValue:SetTextColor(1, 1, 1)
+        end
+
+        if coloringResourceEnabled then
+            r = 1
+            g = manaPercent
+            b = manaPercent
+            self.texts.manaPercent:SetTextColor(r, g, b)
+            self.texts.manaValue:SetTextColor(r, g, b)
+        else
             self.texts.manaPercent:SetTextColor(1, 1, 1)
             self.texts.manaValue:SetTextColor(1, 1, 1)
         end
@@ -375,8 +382,14 @@ DFRL:NewMod("Target", 1, function()
         Setup:UpdateTexts()
     end
 
-    callbacks.textColoring = function(value)
-        configCache.textColoring = value
+    callbacks.textColoringHealth = function(value)
+        configCache.textColoringHealth = value
+        configCache.lastUpdate = GetTime()
+        Setup:UpdateTexts()
+    end
+
+    callbacks.textColoringResource = function(value)
+        configCache.textColoringResource = value
         configCache.lastUpdate = GetTime()
         Setup:UpdateTexts()
     end
